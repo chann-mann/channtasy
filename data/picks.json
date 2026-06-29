@@ -105,17 +105,25 @@
       "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
     },
 
+    {
+      "fifaUsername": "Texturizr", "realName": "Luis Delgado", "displayName": "Texturizr",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","AUS","SUI","COL"],
+      "qf": ["FRA","NED","POR","USA","BRA","MEX","ARG","COL"],
+      "sf": ["FRA","POR","MEX","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
+    },
+
     { "fifaUsername": "soffffffff", "realName": "Sof", "displayName": "soffffffff", "hasBracket": false },
     { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
     { "fifaUsername": "CWonder", "realName": "Charles Wong", "displayName": "CWonder", "hasBracket": false },
     { "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES", "hasBracket": false },
     { "fifaUsername": "Hitenpatel11", "realName": "Hiten", "displayName": "Hitenpatel11", "hasBracket": false },
     { "fifaUsername": "Waywin", "realName": "Waylon", "displayName": "Waywin", "hasBracket": false },
-    { "fifaUsername": "Texturizr", "realName": "Delgado", "displayName": "Texturizr", "hasBracket": false },
     { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
     { "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso", "hasBracket": false },
     { "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "iamphilco", "hasBracket": false, "paid": false },
     { "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank", "hasBracket": false, "note": "FIFA username unknown — confirm" },
-    { "fifaUsername": null, "realName": "Ravi", "displayName": "Ravi", "hasBracket": false, "note": "FIFA username unknown — confirm" }
+    { "fifaUsername": null, "realName": "Ravi", "displayName": "Ravi", "hasBracket": false, "note": "FIFA username unknown — confirm" },
+    { "fifaUsername": "White-Morpheus", "realName": "Erik Agresti", "displayName": "White-Morpheus", "hasBracket": false, "note": "FIFA username White-Morpheus — confirm" }
   ]
 }
