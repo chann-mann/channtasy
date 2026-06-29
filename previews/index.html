@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — Style Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--card:#141b30;--line:#243150;--ink:#eaf0ff;--dim:#9fb0d8;--accent:#f7c948}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--ink);
+  background-image:radial-gradient(900px 400px at 50% -10%,rgba(43,111,255,.22),transparent 60%)}
+.wrap{max-width:1040px;margin:0 auto;padding:56px 22px 70px}
+.eyebrow{font-family:"Space Grotesk";letter-spacing:.24em;text-transform:uppercase;font-size:12px;color:var(--accent)}
+h1{font-family:"Space Grotesk";font-weight:700;font-size:clamp(34px,6vw,58px);letter-spacing:-.02em;margin:8px 0 6px}
+.intro{color:var(--dim);max-width:620px;line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:34px}
+.card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.18s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.swatch{height:96px;display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk";font-weight:700;font-size:20px;letter-spacing:.02em;position:relative}
+.card-body{padding:14px 16px 16px}
+.num{font-family:"Space Grotesk";color:var(--dim);font-size:12px;letter-spacing:.1em}
+.name{font-family:"Space Grotesk";font-weight:700;font-size:18px;margin:2px 0 4px}
+.desc{color:var(--dim);font-size:13px;line-height:1.45}
+.foot{color:var(--dim);font-size:12px;margin-top:34px;line-height:1.6}
+.foot code{background:#0a0f1f;border:1px solid var(--line);border-radius:5px;padding:2px 6px;font-size:12px}
+/* swatches */
+.s1{background:linear-gradient(120deg,#2b34ff 40%,#15e6c3 40% 70%,#ff8a73 70%);color:#fff}
+.s2{background:#ece7da;color:#0a0a0a}.s2 .x{color:#e4002b}
+.s3{background:repeating-linear-gradient(90deg,#1f8a4c 0 26px,#1a7a43 26px 52px);color:#fff}
+.s4{background:#f5ecd6;color:#1f5fa6;text-shadow:2px 2px 0 #e0a82e}
+.s5{background:radial-gradient(circle at 50% 0,#7a5cff,#0d1430);color:#22e6ff}
+.s6{background:#f6f3ec;color:#16140f;font-family:"Space Grotesk"}
+.s7{background:#fafafa;color:#111}.s7 .x{color:#e8330a}
+.s8{background:linear-gradient(120deg,#7b2ff7,#ff2e88 50%,#ff7a1a);color:#b6f500}
+.s9{background:#0c0b09;color:#d4af37}
+.s10{background:#0a0e0a;color:#ffb000;font-family:"JetBrains Mono",monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Channtasy Cup · Design Options</p>
+  <h1>Pick a look</h1>
+  <p class="intro">Ten directions for the leaderboard, all wired to the live data — scores, prize pool and rankings update for real. Open each, then tell me which one (or which mix) to ship.</p>
+  <div class="grid">
+    <a class="card" href="01-trination.html"><div class="swatch s1">Tri-Nation '26</div><div class="card-body"><div class="num">01</div><div class="name">Tri-Nation '26</div><div class="desc">Official WC26 energy — vibrant colour-blocks, chunky rounded type. Guideline-compliant (no FIFA marks).</div></div></a>
+    <a class="card" href="02-fuckfifa.html"><div class="swatch s2"><span class="x">FUCK</span>&nbsp;FIFA</div><div class="card-body"><div class="num">02</div><div class="name">Fuck FIFA</div><div class="desc">Punk ransom-note parody that mocks the IP rulebook. Bold, scrappy, gleefully unauthorised.</div></div></a>
+    <a class="card" href="03-pitch.html"><div class="swatch s3">Matchday Pitch</div><div class="card-body"><div class="num">03</div><div class="name">Matchday Pitch</div><div class="desc">Grass, white lines and a dark stadium scoreboard. Classic, sporty, legible.</div></div></a>
+    <a class="card" href="04-panini.html"><div class="swatch s4">Sticker Album</div><div class="card-body"><div class="num">04</div><div class="name">Sticker Album</div><div class="desc">Retro Panini collector vibe — cream, foil, card grid. Nostalgic and fun.</div></div></a>
+    <a class="card" href="05-floodlights.html"><div class="swatch s5">Floodlights</div><div class="card-body"><div class="num">05</div><div class="name">Floodlights</div><div class="desc">Night-match synthwave — neon glow, dark stadium, beams overhead.</div></div></a>
+    <a class="card" href="06-broadsheet.html"><div class="swatch s6">The Channtasy Times</div><div class="card-body"><div class="num">06</div><div class="name">Broadsheet</div><div class="desc">Sports-page newspaper — serif headlines, hairline rules, editorial standings.</div></div></a>
+    <a class="card" href="07-swiss.html"><div class="swatch s7">Channtasy<span class="x">/</span>Cup</div><div class="card-body"><div class="num">07</div><div class="name">Swiss Index</div><div class="desc">Minimal International Typographic — whitespace, grid, one red accent.</div></div></a>
+    <a class="card" href="08-golazo.html"><div class="swatch s8">¡Golazo!</div><div class="card-body"><div class="num">08</div><div class="name">Golazo Fiesta</div><div class="desc">Host-nation party — papel picado, candy colours, big celebratory type.</div></div></a>
+    <a class="card" href="09-trophy.html"><div class="swatch s9">The Gold Standard</div><div class="card-body"><div class="num">09</div><div class="name">Gold Standard</div><div class="desc">Black-and-gold awards night — serif elegance, restrained and premium.</div></div></a>
+    <a class="card" href="10-terminal.html"><div class="swatch s10">&gt; SCOREBOARD_</div><div class="card-body"><div class="num">10</div><div class="name">Terminal</div><div class="desc">Amber-on-black LED scoreboard — dot-matrix, scanlines, monospaced.</div></div></a>
+  </div>
+  <p class="foot">All ten read the same live data. The current leaderboard stays at <code>/</code>; these are just options at <code>/previews/</code>. Tell me a winner and I'll make it the main site.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — The Gold Standard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0b09;--bg2:#15130e;--gold:#d4af37;--gold2:#f1d886;--ink:#f3ead0;--dim:#9a8f74;--line:rgba(212,175,55,.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Jost,sans-serif;color:var(--ink);background:var(--bg);
+  background-image:radial-gradient(900px 420px at 50% -8%,rgba(212,175,55,.14),transparent 60%)}
+.hero{text-align:center;padding:78px 22px 56px;max-width:900px;margin:0 auto}
+.rule{width:60px;height:1px;background:var(--gold);margin:0 auto 22px;position:relative}
+.rule::before,.rule::after{content:"";position:absolute;top:-2px;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.rule::before{left:-3px}.rule::after{right:-3px}
+.eyebrow{font-weight:500;letter-spacing:.46em;text-transform:uppercase;font-size:11px;color:var(--gold)}
+h1{font-family:"Cormorant Garamond";font-weight:600;font-size:clamp(50px,12vw,120px);line-height:.95;margin:14px 0 8px;letter-spacing:.01em;
+  background:linear-gradient(180deg,var(--gold2),var(--gold) 55%,#a9842a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-weight:300;font-size:16px;color:var(--dim);letter-spacing:.04em}
+.cc-prize{margin-top:30px;display:inline-flex;flex-direction:column;align-items:center;padding:16px 34px;border:1px solid var(--gold);border-radius:4px;background:linear-gradient(180deg,rgba(212,175,55,.08),transparent)}
+.cc-prize-amt{font-family:"Cormorant Garamond";font-weight:700;font-size:clamp(36px,8vw,58px);line-height:1;color:var(--gold2)}
+.cc-prize-lbl{text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--dim);margin-top:4px}
+main{max-width:860px;margin:0 auto;padding:18px 16px 60px}
+.cc-meta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+.cc-chip{border:1px solid var(--line);border-radius:3px;padding:8px 16px;font-size:12px;letter-spacing:.04em;color:var(--dim)}
+.cc-chip b{color:var(--gold2);font-weight:500}
+.cc-chip-champ{border-color:var(--gold)}
+.cc-board{list-style:none}
+.cc-row{display:grid;grid-template-columns:48px 40px 1fr auto 80px;align-items:center;gap:16px;padding:18px 16px;border-bottom:1px solid var(--line)}
+.cc-row[data-top="1"]{background:linear-gradient(90deg,rgba(212,175,55,.12),transparent 60%)}
+.cc-rank{font-family:"Cormorant Garamond";font-weight:600;font-size:30px;text-align:center;color:var(--gold)}
+.cc-flag{font-size:24px;text-align:center}
+.cc-name{font-weight:500;font-size:21px;display:block;line-height:1.05;letter-spacing:.01em}
+.cc-champ{font-size:12px;color:var(--dim);letter-spacing:.03em}
+.cc-bd{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.cc-badge{font-size:11px;font-weight:400;letter-spacing:.04em;padding:3px 8px;border:1px solid var(--line);border-radius:2px;color:var(--dim)}
+.cc-badge i{font-style:normal;opacity:.6;margin-right:4px}
+.cc-badge[data-on="true"]{border-color:var(--gold);color:var(--gold2);background:rgba(212,175,55,.1)}
+.cc-total{font-family:"Cormorant Garamond";font-weight:700;font-size:32px;text-align:right;color:var(--gold2)}
+.waiting{margin-top:34px;border-top:1px solid var(--line);padding-top:18px}
+.waiting h2{text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:var(--gold);margin-bottom:14px}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-size:13px;color:var(--dim);border:1px solid var(--line);border-radius:2px;padding:6px 14px;letter-spacing:.03em}
+.foot{max-width:860px;margin:0 auto;padding:24px 16px 64px;text-align:center;color:#6b6350;font-size:10px;text-transform:uppercase;letter-spacing:.18em}
+@media(max-width:620px){.cc-row{grid-template-columns:40px 1fr 70px;grid-template-areas:"r n t" "r b b";gap:10px}.cc-rank{grid-area:r}.cc-flag{display:none}.cc-id{grid-area:n}.cc-bd{grid-area:b;justify-content:flex-start;margin-top:8px}.cc-total{grid-area:t}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="rule"></div>
+  <p class="eyebrow">By Invitation · Knockout Stage</p>
+  <h1>Channtasy Cup</h1>
+  <p class="hero-sub">Where the bracket separates the bold from the broke</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Reserved seats</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot">An independent private pool</footer>
+<script src="preview.js"></script>
+</body>
+</html>

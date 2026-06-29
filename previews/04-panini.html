@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — Sticker Album '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka:wght@500;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#f5ecd6;--cream2:#efe2c4;--ink:#2a2118;--red:#c8412f;--blue:#1f5fa6;--gold:#e0a82e;--foil:#cdb86a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Nunito,sans-serif;color:var(--ink);background:var(--cream);
+  background-image:radial-gradient(rgba(0,0,0,.04) 1px,transparent 1px);background-size:5px 5px}
+.hero{text-align:center;padding:54px 20px 40px;max-width:920px;margin:0 auto}
+.eyebrow{font-family:"Fredoka";font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:13px;color:var(--red)}
+h1{font-family:"Bungee";font-size:clamp(40px,10vw,92px);line-height:.95;color:var(--blue);text-shadow:3px 3px 0 var(--gold),6px 6px 0 rgba(0,0,0,.12);margin:6px 0}
+.hero-sub{font-family:"Fredoka";font-weight:500;font-size:16px;color:#6b5d48}
+.cc-prize{margin:24px auto 0;display:inline-flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,var(--foil),#f1e3a8,var(--foil));border:3px solid var(--ink);border-radius:14px;padding:12px 26px;box-shadow:4px 4px 0 var(--ink)}
+.cc-prize-amt{font-family:"Bungee";font-size:clamp(30px,7vw,48px);line-height:1;color:var(--ink)}
+.cc-prize-lbl{font-family:"Fredoka";font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:10px}
+main{max-width:920px;margin:0 auto;padding:14px 16px 60px}
+.cc-meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.cc-chip{font-family:"Fredoka";font-weight:600;background:#fff;border:2.5px solid var(--ink);border-radius:10px;padding:7px 14px;font-size:13px;box-shadow:2px 2px 0 var(--ink)}
+.cc-chip-champ{background:var(--red);color:#fff}
+.cc-board{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.cc-row{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"flag id" "bd bd" "rank total";align-items:center;gap:8px 12px;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:14px;box-shadow:3px 3px 0 var(--ink);position:relative}
+.cc-row::before{content:"";position:absolute;left:10px;right:10px;top:6px;height:8px;border-radius:6px;background:repeating-linear-gradient(90deg,var(--red) 0 14px,#fff 14px 28px,var(--blue) 28px 42px,#fff 42px 56px)}
+.cc-row{padding-top:24px}
+.cc-row[data-top="1"]{background:linear-gradient(135deg,#fff,#fff7e0)}
+.cc-rank{grid-area:rank;font-family:"Bungee";font-size:26px}
+.cc-flag{grid-area:flag;font-size:42px}
+.cc-id{grid-area:id}
+.cc-name{font-family:"Bungee";font-size:18px;display:block;line-height:1}
+.cc-champ{font-family:"Fredoka";font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#9a8a70}
+.cc-bd{grid-area:bd;display:flex;gap:5px;flex-wrap:wrap;border-top:2px dashed #d9cba6;padding-top:10px;margin-top:2px}
+.cc-badge{font-family:"Fredoka";font-weight:700;font-size:11px;padding:3px 7px;border-radius:6px;background:var(--cream2);color:#7a6a50}
+.cc-badge i{font-style:normal;opacity:.55;margin-right:3px}
+.cc-badge[data-on="true"]{background:var(--gold);color:var(--ink)}
+.cc-total{grid-area:total;justify-self:end;font-family:"Bungee";font-size:30px;color:var(--red)}
+.waiting{margin-top:32px}
+.waiting h2{font-family:"Bungee";font-size:20px;color:var(--blue);margin-bottom:12px}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-family:"Fredoka";font-weight:600;font-size:13px;border:2.5px dashed var(--ink);border-radius:8px;padding:5px 13px;background:rgba(255,255,255,.5)}
+.cc-wait::before{content:"got, ";opacity:0;position:absolute}
+.foot{max-width:920px;margin:0 auto;padding:22px 16px 60px;text-align:center;color:#9a8a70;font-size:11px;font-family:"Fredoka"}
+</style>
+</head>
+<body>
+<header class="hero">
+  <p class="eyebrow">Collect 'em all · Series '26</p>
+  <h1>Channtasy Cup</h1>
+  <p class="hero-sub">Got. Got. Need. — the bracket sticker album</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Shiny missing stickers</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot">An unofficial collector's pool · made by friends, for friends.</footer>
+<script src="preview.js"></script>
+</body>
+</html>

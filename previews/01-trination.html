@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — Tri-Nation '26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#2b34ff;--cyan:#15e6c3;--coral:#ff8a73;--red:#ff2e1a;--yellow:#eaff4a;--ink:#07091a;--paper:#fff;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,sans-serif;color:var(--ink);background:var(--paper)}
+.hero{position:relative;overflow:hidden;background:var(--blue);color:#fff;padding:64px 24px 120px}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%}
+.hero::before{width:520px;height:520px;background:var(--cyan);right:-120px;top:-160px}
+.hero::after{width:380px;height:380px;background:var(--coral);left:-120px;bottom:-200px}
+.hero-inner{position:relative;z-index:2;max-width:880px;margin:0 auto;text-align:center}
+.eyebrow{font-weight:800;letter-spacing:.32em;font-size:12px;text-transform:uppercase;opacity:.92}
+.eyebrow b{color:var(--yellow)}
+h1{font-family:"Baloo 2",cursive;font-weight:800;font-size:clamp(52px,12vw,120px);line-height:.92;letter-spacing:-.01em;margin:8px 0 2px;text-transform:uppercase}
+.hero-sub{font-weight:600;opacity:.9;font-size:15px}
+.cc-prize{margin:28px auto 0;display:inline-flex;flex-direction:column;align-items:center;background:var(--yellow);color:var(--ink);padding:14px 30px;border-radius:18px;transform:rotate(-1.2deg)}
+.cc-prize-amt{font-family:"Baloo 2";font-weight:800;font-size:clamp(34px,7vw,54px);line-height:1}
+.cc-prize-lbl{font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:10px}
+main{max-width:880px;margin:-72px auto 0;padding:0 16px 60px;position:relative;z-index:3}
+.cc-meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.cc-chip{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600}
+.cc-chip b{font-weight:800}
+.cc-chip-champ{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cc-board{list-style:none}
+.cc-row{display:grid;grid-template-columns:54px 46px 1fr auto 74px;align-items:center;gap:14px;background:#fff;border:2.5px solid var(--ink);border-radius:18px;padding:14px 18px;margin-bottom:12px;box-shadow:6px 6px 0 var(--ink)}
+.cc-row[data-top="1"]{background:var(--yellow)}.cc-row[data-top="2"]{background:var(--cyan)}.cc-row[data-top="3"]{background:var(--coral)}
+.cc-rank{font-family:"Baloo 2";font-weight:800;font-size:30px;text-align:center}
+.cc-flag{font-size:26px;text-align:center}
+.cc-name{font-family:"Baloo 2";font-weight:700;font-size:20px;display:block;line-height:1}
+.cc-champ{font-size:11px;font-weight:600;opacity:.6;text-transform:uppercase;letter-spacing:.04em}
+.cc-bd{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.cc-badge{font-size:11px;font-weight:800;padding:4px 8px;border-radius:8px;border:2px solid var(--ink);background:#fff}
+.cc-badge i{font-style:normal;opacity:.55;margin-right:4px}
+.cc-badge[data-on="true"]{background:var(--ink);color:#fff}
+.cc-total{font-family:"Baloo 2";font-weight:800;font-size:32px;text-align:right}
+.waiting{margin-top:34px}
+.waiting h2{font-family:"Baloo 2";text-transform:uppercase;font-size:15px;letter-spacing:.1em;margin-bottom:12px}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-size:13px;font-weight:600;border:2px dashed var(--ink);border-radius:999px;padding:6px 14px;opacity:.7}
+.foot{max-width:880px;margin:0 auto;padding:24px 16px 60px;text-align:center;color:#6b7280;font-size:11px;line-height:1.6}
+@media(max-width:620px){.cc-row{grid-template-columns:40px 1fr 64px;grid-template-areas:"r n t" "r b b";gap:8px}.cc-rank{grid-area:r}.cc-flag{display:none}.cc-id{grid-area:n}.cc-bd{grid-area:b;justify-content:flex-start;margin-top:8px}.cc-total{grid-area:t}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <p class="eyebrow">Canada · Mexico · USA · <b>Summer 2026</b></p>
+  <h1>Channtasy<br>Cup</h1>
+  <p class="hero-sub">The knockout bracket pool · 48 teams, one trophy, bragging rights forever</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</div></header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Still on the clock</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot">Independent fan pool for friends. Not affiliated with, endorsed by, sponsored by, or associated with FIFA or the FIFA World Cup 26™. Team names and flags used descriptively.</footer>
+<script src="preview.js"></script>
+</body>
+</html>

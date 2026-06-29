@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — UNAUTHORISED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Anton&family=Special+Elite&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ece7da;--ink:#0a0a0a;--red:#e4002b;--tape:#d9cf3a;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Courier Prime",monospace;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(rgba(0,0,0,.045) 1px,transparent 1px);background-size:4px 4px}
+.hero{position:relative;padding:60px 20px 60px;border-bottom:5px solid var(--ink)}
+.hero-inner{max-width:900px;margin:0 auto}
+.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font-family:"Archivo Black";font-size:13px;letter-spacing:.12em;padding:6px 12px;transform:rotate(-4deg);text-transform:uppercase}
+h1{font-family:"Anton",sans-serif;font-size:clamp(64px,17vw,180px);line-height:.82;text-transform:uppercase;letter-spacing:-.02em;margin:14px 0 0}
+h1 .f{color:var(--red);display:inline-block;transform:rotate(-2deg)}
+h1 .fifa{background:var(--ink);color:var(--paper);display:inline-block;padding:0 .08em;transform:rotate(1.5deg)}
+.kicker{font-family:"Special Elite";font-size:16px;margin-top:14px;max-width:560px;line-height:1.5}
+.censor{background:var(--ink);color:var(--ink)}
+.censor:hover{color:var(--paper)}
+.cc-prize{margin-top:24px;display:inline-flex;flex-direction:column;background:var(--tape);color:var(--ink);padding:12px 22px;transform:rotate(-1.5deg);box-shadow:5px 5px 0 var(--ink)}
+.cc-prize-amt{font-family:"Anton";font-size:clamp(34px,8vw,56px);line-height:.9}
+.cc-prize-lbl{font-family:"Courier Prime";font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.1em}
+main{max-width:900px;margin:0 auto;padding:32px 16px 60px}
+.cc-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.cc-chip{background:var(--paper);border:2px solid var(--ink);padding:7px 13px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.cc-chip-champ{background:var(--red);color:#fff;border-color:var(--red)}
+.cc-board{list-style:none}
+.cc-row{display:grid;grid-template-columns:48px 40px 1fr auto 70px;align-items:center;gap:12px;background:var(--paper);border:2.5px solid var(--ink);padding:13px 16px;margin-bottom:-2px;position:relative}
+.cc-row:nth-child(even){transform:rotate(.25deg)}.cc-row:nth-child(odd){transform:rotate(-.25deg)}
+.cc-row[data-top="1"]{background:var(--ink);color:var(--paper);transform:rotate(-.6deg);z-index:2}
+.cc-row[data-top="1"] .cc-badge{border-color:var(--paper)}
+.cc-row[data-top="1"]::after{content:"TOP DOG";position:absolute;top:-12px;right:14px;background:var(--red);color:#fff;font-family:"Archivo Black";font-size:10px;letter-spacing:.1em;padding:3px 8px;transform:rotate(3deg)}
+.cc-rank{font-family:"Anton";font-size:30px;text-align:center}
+.cc-flag{font-size:24px;text-align:center}
+.cc-name{font-family:"Archivo Black";font-size:17px;display:block;text-transform:uppercase}
+.cc-champ{font-size:10px;text-transform:uppercase;letter-spacing:.06em;opacity:.6}
+.cc-bd{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.cc-badge{font-size:11px;font-weight:700;padding:3px 7px;border:2px solid var(--ink);background:transparent}
+.cc-badge i{font-style:normal;opacity:.5;margin-right:3px}
+.cc-badge[data-on="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.cc-total{font-family:"Anton";font-size:32px;text-align:right}
+.waiting{margin-top:34px;border-top:3px dashed var(--ink);padding-top:18px}
+.waiting h2{font-family:"Anton";text-transform:uppercase;font-size:22px;margin-bottom:12px}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-size:12px;font-weight:700;border:2px solid var(--ink);padding:5px 12px;text-transform:uppercase;background:repeating-linear-gradient(45deg,transparent,transparent 5px,rgba(0,0,0,.05) 5px,rgba(0,0,0,.05) 7px)}
+.foot{max-width:900px;margin:0 auto;padding:0 16px 70px}
+.disclaimer{border:2px solid var(--ink);padding:16px;font-family:"Special Elite";font-size:13px;line-height:1.6}
+.disclaimer b{font-family:"Archivo Black";text-transform:uppercase}
+@media(max-width:620px){.cc-row{grid-template-columns:38px 1fr 62px;grid-template-areas:"r n t" "r b b";gap:8px}.cc-rank{grid-area:r}.cc-flag{display:none}.cc-id{grid-area:n}.cc-bd{grid-area:b;justify-content:flex-start;margin-top:8px}.cc-total{grid-area:t}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <span class="stamp">★ Creates an Unauthorised Association ★</span>
+  <h1><span class="f">FUCK</span> <span class="fifa">FIFA</span><br>CHANNTASY CUP</h1>
+  <p class="kicker">A wildcat bracket pool, presented by nobody, sponsored by no one, brought to you by <span class="censor">[REDACTED]</span>. No marks were licensed in the making of this leaderboard.</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</div></header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Yet to file paperwork</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot"><div class="disclaimer"><b>Cease &amp; desist, lovingly ignored.</b> This page is a parody. It uses generic country names and flags, names no sponsors, sells nothing, and counts down to nothing. Any resemblance to an "Official Emblem," "Official Wordmark," or "Official Typeface" is purely the absence thereof. We are <b>not</b> a Rights Holder, and proud of it.</div></footer>
+<script src="preview.js"></script>
+</body>
+</html>
