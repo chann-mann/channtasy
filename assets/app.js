@@ -168,6 +168,18 @@ async function main() {
     });
     rankRows(rows);
 
+    // prize pool: $perPerson for every person in the group, incl. those without brackets
+    const perPerson = picks.prizePerPerson || 0;
+    const players = picks.participants.length;
+    if (perPerson > 0) {
+      const banner = document.getElementById("prize-banner");
+      banner.hidden = false;
+      const pot = (perPerson * players).toLocaleString("en-US");
+      banner.innerHTML =
+        `<span class="prize-amount">$${pot}</span>` +
+        `<span class="prize-sub">prize pool · $${perPerson} × ${players} players</span>`;
+    }
+
     renderStatus(bracket, results, actuals);
     renderRows(rows, bracket, scoring);
     renderPending(pending);
