@@ -1,0 +1,11 @@
+{
+  "_comment": "Official FIFA World Cup 2026 Bracket Challenge knockout scoring. Points are awarded per team a participant correctly predicted to REACH the given round (advancement-based, independent per round). Source: play.fifa.com/bracket-predictor/help/guidelines",
+  "rounds": [
+    { "id": "r16", "label": "Reached Round of 16", "short": "R16", "points": 20 },
+    { "id": "qf", "label": "Reached Quarter-Finals", "short": "QF", "points": 30 },
+    { "id": "sf", "label": "Reached Semi-Finals", "short": "SF", "points": 40 },
+    { "id": "final", "label": "Reached Final", "short": "F", "points": 75 }
+  ],
+  "champion": { "label": "Champion", "short": "🏆", "points": 100 },
+  "maxPossible": 970
+}

@@ -1,0 +1,81 @@
+{
+  "_comment": "Fixed knockout-stage skeleton for the FIFA World Cup 2026 Second Chance bracket. Identical across all participant PDFs. Topology: each match lists the two feeder matches (R32 matches list their two teams). Used to render the bracket and reconstruct picks.",
+  "tournament": "FIFA World Cup 2026 — Second Chance Knockout Bracket",
+  "teams": {
+    "GER": { "name": "Germany", "flag": "🇩🇪" },
+    "PAR": { "name": "Paraguay", "flag": "🇵🇾" },
+    "FRA": { "name": "France", "flag": "🇫🇷" },
+    "SWE": { "name": "Sweden", "flag": "🇸🇪" },
+    "RSA": { "name": "South Africa", "flag": "🇿🇦" },
+    "CAN": { "name": "Canada", "flag": "🇨🇦" },
+    "NED": { "name": "Netherlands", "flag": "🇳🇱" },
+    "MAR": { "name": "Morocco", "flag": "🇲🇦" },
+    "POR": { "name": "Portugal", "flag": "🇵🇹" },
+    "CRO": { "name": "Croatia", "flag": "🇭🇷" },
+    "ESP": { "name": "Spain", "flag": "🇪🇸" },
+    "AUT": { "name": "Austria", "flag": "🇦🇹" },
+    "USA": { "name": "United States", "flag": "🇺🇸" },
+    "BIH": { "name": "Bosnia & Herzegovina", "flag": "🇧🇦" },
+    "BEL": { "name": "Belgium", "flag": "🇧🇪" },
+    "SEN": { "name": "Senegal", "flag": "🇸🇳" },
+    "BRA": { "name": "Brazil", "flag": "🇧🇷" },
+    "JPN": { "name": "Japan", "flag": "🇯🇵" },
+    "NOR": { "name": "Norway", "flag": "🇳🇴" },
+    "CIV": { "name": "Côte d'Ivoire", "flag": "🇨🇮" },
+    "MEX": { "name": "Mexico", "flag": "🇲🇽" },
+    "ECU": { "name": "Ecuador", "flag": "🇪🇨" },
+    "ENG": { "name": "England", "flag": "🏴" },
+    "COD": { "name": "DR Congo", "flag": "🇨🇩" },
+    "ARG": { "name": "Argentina", "flag": "🇦🇷" },
+    "CPV": { "name": "Cape Verde", "flag": "🇨🇻" },
+    "AUS": { "name": "Australia", "flag": "🇦🇺" },
+    "EGY": { "name": "Egypt", "flag": "🇪🇬" },
+    "SUI": { "name": "Switzerland", "flag": "🇨🇭" },
+    "ALG": { "name": "Algeria", "flag": "🇩🇿" },
+    "COL": { "name": "Colombia", "flag": "🇨🇴" },
+    "GHA": { "name": "Ghana", "flag": "🇬🇭" }
+  },
+  "rounds": {
+    "r32": [
+      { "id": "M1",  "venue": "Boston Stadium",            "date": "29 Jun, 13:30", "teams": ["GER", "PAR"] },
+      { "id": "M2",  "venue": "New York/New Jersey Stadium", "date": "30 Jun, 14:00", "teams": ["FRA", "SWE"] },
+      { "id": "M3",  "venue": "Los Angeles Stadium",        "date": "28 Jun, 16:00", "teams": ["RSA", "CAN"] },
+      { "id": "M4",  "venue": "Monterrey Stadium",          "date": "29 Jun, 18:00", "teams": ["NED", "MAR"] },
+      { "id": "M5",  "venue": "Toronto Stadium",            "date": "2 Jul, 16:00",  "teams": ["POR", "CRO"] },
+      { "id": "M6",  "venue": "Los Angeles Stadium",        "date": "2 Jul, 12:00",  "teams": ["ESP", "AUT"] },
+      { "id": "M7",  "venue": "San Francisco Bay Area Stadium", "date": "1 Jul, 17:00", "teams": ["USA", "BIH"] },
+      { "id": "M8",  "venue": "Seattle Stadium",            "date": "1 Jul, 13:00",  "teams": ["BEL", "SEN"] },
+      { "id": "M9",  "venue": "Houston Stadium",            "date": "29 Jun, 10:00", "teams": ["BRA", "JPN"] },
+      { "id": "M10", "venue": "Dallas Stadium",             "date": "30 Jun, 10:00", "teams": ["NOR", "CIV"] },
+      { "id": "M11", "venue": "Mexico City Stadium",        "date": "30 Jun, 18:00", "teams": ["MEX", "ECU"] },
+      { "id": "M12", "venue": "Atlanta Stadium",            "date": "1 Jul, 09:00",  "teams": ["ENG", "COD"] },
+      { "id": "M13", "venue": "Miami Stadium",              "date": "3 Jul, 15:00",  "teams": ["ARG", "CPV"] },
+      { "id": "M14", "venue": "Dallas Stadium",             "date": "3 Jul, 11:00",  "teams": ["AUS", "EGY"] },
+      { "id": "M15", "venue": "BC Place Vancouver",         "date": "2 Jul, 20:00",  "teams": ["SUI", "ALG"] },
+      { "id": "M16", "venue": "Kansas City Stadium",        "date": "3 Jul, 18:30",  "teams": ["COL", "GHA"] }
+    ],
+    "r16": [
+      { "id": "A1", "venue": "Philadelphia Stadium", "date": "4 Jul",  "feeds": ["M1", "M2"] },
+      { "id": "A2", "venue": "Houston Stadium",       "date": "4 Jul",  "feeds": ["M3", "M4"] },
+      { "id": "B1", "venue": "Dallas Stadium",        "date": "6 Jul",  "feeds": ["M5", "M6"] },
+      { "id": "B2", "venue": "Seattle Stadium",       "date": "6 Jul",  "feeds": ["M7", "M8"] },
+      { "id": "C1", "venue": "New York/New Jersey Stadium", "date": "5 Jul", "feeds": ["M9", "M10"] },
+      { "id": "C2", "venue": "Mexico City Stadium",   "date": "5 Jul",  "feeds": ["M11", "M12"] },
+      { "id": "D1", "venue": "Atlanta Stadium",       "date": "7 Jul",  "feeds": ["M13", "M14"] },
+      { "id": "D2", "venue": "BC Place Vancouver",    "date": "7 Jul",  "feeds": ["M15", "M16"] }
+    ],
+    "qf": [
+      { "id": "QA", "venue": "Boston Stadium",      "date": "9 Jul",  "feeds": ["A1", "A2"] },
+      { "id": "QB", "venue": "Los Angeles Stadium", "date": "10 Jul", "feeds": ["B1", "B2"] },
+      { "id": "QC", "venue": "Miami Stadium",       "date": "11 Jul", "feeds": ["C1", "C2"] },
+      { "id": "QD", "venue": "Kansas City Stadium", "date": "11 Jul", "feeds": ["D1", "D2"] }
+    ],
+    "sf": [
+      { "id": "S1", "venue": "Dallas Stadium",  "date": "14 Jul", "feeds": ["QA", "QB"] },
+      { "id": "S2", "venue": "Atlanta Stadium", "date": "15 Jul", "feeds": ["QC", "QD"] }
+    ],
+    "final": [
+      { "id": "F", "venue": "New York/New Jersey Stadium", "date": "19 Jul", "feeds": ["S1", "S2"] }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Channtasy Cup — World Cup 2026 Leaderboard</title>
+  <meta name="description" content="Channtasy Cup — a World Cup 2026 knockout bracket pool leaderboard." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <div class="pitch-lines" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="crest" aria-hidden="true">🏆</div>
+    <h1>Channtasy&nbsp;Cup</h1>
+    <p class="tagline">World Cup 2026 · Knockout Bracket Pool</p>
+  </header>
+
+  <main>
+    <section class="status-bar" id="status-bar" aria-live="polite"></section>
+
+    <section class="leaderboard" aria-label="Leaderboard">
+      <div class="lb-head" role="row">
+        <span class="col-rank">#</span>
+        <span class="col-name">Participant</span>
+        <span class="col-breakdown">Breakdown</span>
+        <span class="col-total">Pts</span>
+      </div>
+      <div id="leaderboard-body"><!-- rows injected here --></div>
+    </section>
+
+    <section class="awaiting" id="awaiting" hidden>
+      <h2>Awaiting brackets</h2>
+      <div id="awaiting-body" class="awaiting-list"></div>
+    </section>
+
+    <p class="error" id="error" hidden></p>
+  </main>
+
+  <footer class="site-footer">
+    <span id="updated-note"></span>
+    <span class="dot">·</span>
+    <span>Scoring: R16 20 · QF 30 · SF 40 · Final 75 · Champion 100</span>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

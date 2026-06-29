@@ -1,0 +1,7 @@
+{
+  "_comment": "Actual results, keyed by match id from bracket.json (M1-M16 = R32, A1-D2 = R16, QA-QD = QF, S1/S2 = SF, F = Final). Value = winning team code. The app derives 'who reached each round' from these + the bracket topology, then scores picks against it. Update as games finish: run `node scripts/fetch-results.mjs` or hand-edit this file.",
+  "lastUpdated": "2026-06-29",
+  "matchResults": {
+    "M3": "CAN"
+  }
+}

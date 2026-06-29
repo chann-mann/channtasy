@@ -1,0 +1,115 @@
+{
+  "_comment": "Participant picks. r16 = teams predicted to reach R16 (their 16 R32-match winners); qf/sf/final = predicted teams reaching those rounds; champion = predicted winner. Derived from the FIFA bracket PDFs. hasBracket=false means no bracket submitted yet (shows as awaiting). 'flags' notes cells transcribed from rough/cropped renders that should be double-checked.",
+  "lastUpdated": "2026-06-29",
+  "participants": [
+    {
+      "fifaUsername": "channmann",
+      "realName": "Michael (commissioner)",
+      "displayName": "channmann",
+      "hasBracket": true,
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","NED","ESP","USA","NOR","MEX","ARG","SUI"],
+      "sf": ["FRA","ESP","NOR","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "Ellibobellibobelli",
+      "realName": "Elli Seo",
+      "displayName": "Ellibobellibobelli",
+      "hasBracket": true,
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","JPN","NOR","MEX","ENG","ARG","AUS","SUI","COL"],
+      "qf": ["FRA","NED","ESP","USA","JPN","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","ENG","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "kwayla",
+      "realName": "Kayla",
+      "displayName": "kwayla",
+      "hasBracket": true,
+      "r16": ["GER","FRA","CAN","NED","CRO","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","ALG","COL"],
+      "qf": ["FRA","NED","ESP","USA","BRA","MEX","ARG","COL"],
+      "sf": ["FRA","USA","MEX","ARG"],
+      "final": ["FRA","MEX"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "Masediggity9",
+      "realName": "Matt Mason",
+      "displayName": "Masediggity9",
+      "hasBracket": true,
+      "flags": "Rough render — double-check MAR over NED (M4), CIV over NOR (M10), and SF-2 winner MEX.",
+      "r16": ["GER","FRA","CAN","MAR","CRO","ESP","USA","SEN","JPN","CIV","MEX","ENG","ARG","EGY","ALG","COL"],
+      "qf": ["FRA","MAR","ESP","USA","JPN","MEX","ARG","COL"],
+      "sf": ["FRA","USA","MEX","COL"],
+      "final": ["FRA","MEX"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "Tweety007",
+      "realName": "Tweety",
+      "displayName": "Tweety007",
+      "hasBracket": true,
+      "r16": ["GER","FRA","RSA","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","NED","ESP","USA","NOR","MEX","ARG","COL"],
+      "sf": ["FRA","ESP","MEX","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "grapepeddler",
+      "realName": "Gabriel",
+      "displayName": "grapepeddler",
+      "hasBracket": true,
+      "flags": "Champion was cropped in the PDF; commissioner confirmed ARG (the lone non-France champion pick).",
+      "r16": ["GER","FRA","CAN","NED","CRO","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","NED","ESP","USA","BRA","MEX","ARG","COL"],
+      "sf": ["FRA","ESP","BRA","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "ARG"
+    },
+    {
+      "fifaUsername": "Nigeljersey",
+      "realName": "Nigel",
+      "displayName": "Nigeljersey",
+      "hasBracket": true,
+      "r16": ["GER","FRA","RSA","NED","CRO","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","ALG","COL"],
+      "qf": ["FRA","NED","ESP","USA","BRA","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","BRA","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "FRA"
+    },
+    {
+      "fifaUsername": "andirayo",
+      "realName": "Rayo",
+      "displayName": "andirayo",
+      "hasBracket": true,
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","NED","ESP","USA","BRA","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","ENG","ARG"],
+      "final": ["FRA","ARG"],
+      "champion": "FRA"
+    },
+
+    { "fifaUsername": "DidKoreaMakeIt", "realName": "Lafitte", "displayName": "DidKoreaMakeIt", "hasBracket": false },
+    { "fifaUsername": "soffffffff", "realName": "Sof", "displayName": "soffffffff", "hasBracket": false },
+    { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
+    { "fifaUsername": "Sneeman3030", "realName": "Evan", "displayName": "Sneeman3030", "hasBracket": false },
+    { "fifaUsername": "CWonder", "realName": "Charles Wong", "displayName": "CWonder", "hasBracket": false },
+    { "fifaUsername": "Ebriner89", "realName": "Erik Briner", "displayName": "Ebriner89", "hasBracket": false },
+    { "fifaUsername": "TannedLuis", "realName": "Luis Flores", "displayName": "TannedLuis", "hasBracket": false },
+    { "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES", "hasBracket": false },
+    { "fifaUsername": "Hitenpatel11", "realName": "Hiten", "displayName": "Hitenpatel11", "hasBracket": false },
+    { "fifaUsername": "Waywin", "realName": "Waylon", "displayName": "Waywin", "hasBracket": false },
+    { "fifaUsername": "Texturizr", "realName": "Delgado", "displayName": "Texturizr", "hasBracket": false },
+    { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
+    { "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso", "hasBracket": false },
+    { "fifaUsername": "Joe Re Mi", "realName": "Joe", "displayName": "Joe Re Mi", "hasBracket": false },
+    { "fifaUsername": "KieveFever", "realName": "Kate", "displayName": "KieveFever", "hasBracket": false, "paid": false },
+    { "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "iamphilco", "hasBracket": false, "paid": false },
+    { "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank", "hasBracket": false, "note": "FIFA username unknown — confirm" },
+    { "fifaUsername": null, "realName": "Ravi", "displayName": "Ravi", "hasBracket": false, "note": "FIFA username unknown — confirm" }
+  ]
+}
