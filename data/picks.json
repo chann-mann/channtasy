@@ -104,6 +104,13 @@
       "qf": ["FRA","NED","ESP","BEL","CIV","ENG","ARG","COL"],
       "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
     },
+    {
+      "fifaUsername": "Hitenpatel11", "realName": "Hiten", "displayName": "Hitenpatel11",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","RSA","NED","POR","ESP","USA","BEL","BRA","NOR","ECU","ENG","ARG","EGY","ALG","COL"],
+      "qf": ["FRA","NED","ESP","BEL","NOR","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","NOR","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
+    },
 
     {
       "fifaUsername": "Texturizr", "realName": "Luis Delgado", "displayName": "Texturizr",
@@ -117,7 +124,6 @@
     { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
     { "fifaUsername": "CWonder", "realName": "Charles Wong", "displayName": "CWonder", "hasBracket": false },
     { "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES", "hasBracket": false },
-    { "fifaUsername": "Hitenpatel11", "realName": "Hiten", "displayName": "Hitenpatel11", "hasBracket": false },
     { "fifaUsername": "Waywin", "realName": "Waylon", "displayName": "Waywin", "hasBracket": false },
     { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
     { "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso", "hasBracket": false },
