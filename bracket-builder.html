@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Channtasy Cup — Bracket Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a1418;
+    --panel: #112027;
+    --panel-2: #162a32;
+    --line: #224049;
+    --ink: #eaf4f2;
+    --muted: #8aa6a8;
+    --accent: #19c37d;
+    --accent-ink: #042217;
+    --gold: #f3c544;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    text-align: center;
+    padding: 22px 16px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  header h1 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 30px;
+  }
+  header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+
+  .bar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center;
+    padding: 10px 16px;
+    background: rgba(10,20,24,.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar input {
+    background: var(--panel); border: 1px solid var(--line); color: var(--ink);
+    padding: 7px 10px; border-radius: 7px; font-size: 13px; font-family: inherit;
+  }
+  .bar input.name { width: 180px; }
+  .count { color: var(--muted); font-size: 13px; }
+  .count b { color: var(--accent); }
+  button {
+    font-family: inherit; font-weight: 600; font-size: 13px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    padding: 8px 13px; border-radius: 7px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button.primary:disabled { opacity: .4; cursor: not-allowed; }
+
+  .scroll { overflow-x: auto; padding: 24px 16px 60px; }
+  .bracket {
+    display: inline-flex; gap: 26px; align-items: stretch; min-width: min-content;
+  }
+  .col { display: flex; flex-direction: column; justify-content: space-around; min-width: 200px; }
+  .col h2 {
+    font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .08em;
+    font-size: 14px; color: var(--muted); text-align: center; margin: 0 0 6px; font-weight: 600;
+  }
+  .col-champ { justify-content: center; }
+
+  .match {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    margin: 9px 0; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  .match .meta {
+    font-size: 10px; color: var(--muted); padding: 4px 9px 2px;
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .match .meta .id { color: var(--accent); font-weight: 700; letter-spacing: .05em; }
+  .slot {
+    display: flex; align-items: center; gap: 9px; padding: 8px 10px; cursor: pointer;
+    border-top: 1px solid var(--line); user-select: none; transition: background .12s;
+  }
+  .slot:first-of-type { border-top: none; }
+  .slot:hover:not(.tbd) { background: var(--panel-2); }
+  .slot .flag { font-size: 18px; width: 22px; text-align: center; }
+  .slot .code { font-weight: 700; font-size: 12px; letter-spacing: .03em; width: 34px; color: var(--muted); }
+  .slot .nm { font-size: 13px; flex: 1; white-space: nowrap; }
+  .slot.picked { background: rgba(25,195,125,.14); }
+  .slot.picked .nm { font-weight: 700; }
+  .slot.picked .code { color: var(--accent); }
+  .slot.dimmed { opacity: .4; }
+  .slot.tbd { cursor: default; color: var(--muted); }
+  .slot.tbd .nm { font-style: italic; }
+
+  .champ-box {
+    border: 1px dashed var(--line); border-radius: 12px; padding: 18px 20px; text-align: center;
+    min-width: 200px; background: var(--panel);
+  }
+  .champ-box .lbl {
+    font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--gold); font-size: 13px; font-weight: 700;
+  }
+  .champ-box .big { font-size: 46px; margin: 6px 0 2px; }
+  .champ-box .nm { font-size: 16px; font-weight: 700; }
+  .champ-box.set { border-style: solid; border-color: var(--gold); box-shadow: 0 0 22px rgba(243,197,68,.18); }
+
+  .output { padding: 0 16px 50px; max-width: 880px; margin: 0 auto; }
+  .output h2 {
+    font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .06em; font-size: 18px;
+  }
+  textarea {
+    width: 100%; min-height: 220px; background: #071014; color: #c6f0dc;
+    border: 1px solid var(--line); border-radius: 9px; padding: 12px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; line-height: 1.5;
+    resize: vertical;
+  }
+  .hint { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+  .hint code { background: var(--panel); padding: 1px 5px; border-radius: 4px; color: var(--accent); }
+  .toast {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--accent); color: var(--accent-ink); padding: 10px 18px; border-radius: 8px;
+    font-weight: 700; font-size: 13px; opacity: 0; pointer-events: none; transition: all .25s;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>🏆 Channtasy Cup — Bracket Builder</h1>
+    <p>Click a team in each match to advance it. Picks flow forward automatically. Then save to the site's format.</p>
+  </header>
+
+  <div class="bar">
+    <input class="name" id="f-display" placeholder="Display name (e.g. channmann)" />
+    <input class="name" id="f-real" placeholder="Real name (optional)" />
+    <span class="count" id="count"></span>
+    <button id="btn-reset">Reset</button>
+    <button class="primary" id="btn-generate" disabled>Generate JSON ↓</button>
+  </div>
+
+  <div class="scroll">
+    <div class="bracket" id="bracket"></div>
+  </div>
+
+  <div class="output">
+    <h2>Participant JSON</h2>
+    <p class="hint">
+      This is the exact entry shape <code>data/picks.json</code> uses. When the bracket is complete, copy this
+      and add it as a new object inside the <code>participants</code> array in <code>data/picks.json</code>
+      (or use it to replace an existing <code>hasBracket:false</code> entry).
+    </p>
+    <textarea id="out" readonly placeholder="Complete the bracket to generate the JSON…"></textarea>
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="btn-copy">Copy JSON</button>
+      <button id="btn-download">Download .json</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* ----- Bracket skeleton (mirrors data/bracket.json) ----- */
+const TEAMS = {
+  GER:{name:"Germany",flag:"🇩🇪"}, PAR:{name:"Paraguay",flag:"🇵🇾"}, FRA:{name:"France",flag:"🇫🇷"},
+  SWE:{name:"Sweden",flag:"🇸🇪"}, RSA:{name:"South Africa",flag:"🇿🇦"}, CAN:{name:"Canada",flag:"🇨🇦"},
+  NED:{name:"Netherlands",flag:"🇳🇱"}, MAR:{name:"Morocco",flag:"🇲🇦"}, POR:{name:"Portugal",flag:"🇵🇹"},
+  CRO:{name:"Croatia",flag:"🇭🇷"}, ESP:{name:"Spain",flag:"🇪🇸"}, AUT:{name:"Austria",flag:"🇦🇹"},
+  USA:{name:"United States",flag:"🇺🇸"}, BIH:{name:"Bosnia & Herzegovina",flag:"🇧🇦"}, BEL:{name:"Belgium",flag:"🇧🇪"},
+  SEN:{name:"Senegal",flag:"🇸🇳"}, BRA:{name:"Brazil",flag:"🇧🇷"}, JPN:{name:"Japan",flag:"🇯🇵"},
+  NOR:{name:"Norway",flag:"🇳🇴"}, CIV:{name:"Côte d'Ivoire",flag:"🇨🇮"}, MEX:{name:"Mexico",flag:"🇲🇽"},
+  ECU:{name:"Ecuador",flag:"🇪🇨"}, ENG:{name:"England",flag:"🏴"}, COD:{name:"DR Congo",flag:"🇨🇩"},
+  ARG:{name:"Argentina",flag:"🇦🇷"}, CPV:{name:"Cape Verde",flag:"🇨🇻"}, AUS:{name:"Australia",flag:"🇦🇺"},
+  EGY:{name:"Egypt",flag:"🇪🇬"}, SUI:{name:"Switzerland",flag:"🇨🇭"}, ALG:{name:"Algeria",flag:"🇩🇿"},
+  COL:{name:"Colombia",flag:"🇨🇴"}, GHA:{name:"Ghana",flag:"🇬🇭"}
+};
+const ROUNDS = {
+  r32: [
+    {id:"M1",date:"29 Jun",teams:["GER","PAR"]},  {id:"M2",date:"30 Jun",teams:["FRA","SWE"]},
+    {id:"M3",date:"28 Jun",teams:["RSA","CAN"]},  {id:"M4",date:"29 Jun",teams:["NED","MAR"]},
+    {id:"M5",date:"2 Jul",teams:["POR","CRO"]},   {id:"M6",date:"2 Jul",teams:["ESP","AUT"]},
+    {id:"M7",date:"1 Jul",teams:["USA","BIH"]},   {id:"M8",date:"1 Jul",teams:["BEL","SEN"]},
+    {id:"M9",date:"29 Jun",teams:["BRA","JPN"]},  {id:"M10",date:"30 Jun",teams:["NOR","CIV"]},
+    {id:"M11",date:"30 Jun",teams:["MEX","ECU"]}, {id:"M12",date:"1 Jul",teams:["ENG","COD"]},
+    {id:"M13",date:"3 Jul",teams:["ARG","CPV"]},  {id:"M14",date:"3 Jul",teams:["AUS","EGY"]},
+    {id:"M15",date:"2 Jul",teams:["SUI","ALG"]},  {id:"M16",date:"3 Jul",teams:["COL","GHA"]}
+  ],
+  r16: [
+    {id:"A1",date:"4 Jul",feeds:["M1","M2"]}, {id:"A2",date:"4 Jul",feeds:["M3","M4"]},
+    {id:"B1",date:"6 Jul",feeds:["M5","M6"]}, {id:"B2",date:"6 Jul",feeds:["M7","M8"]},
+    {id:"C1",date:"5 Jul",feeds:["M9","M10"]},{id:"C2",date:"5 Jul",feeds:["M11","M12"]},
+    {id:"D1",date:"7 Jul",feeds:["M13","M14"]},{id:"D2",date:"7 Jul",feeds:["M15","M16"]}
+  ],
+  qf: [
+    {id:"QA",date:"9 Jul",feeds:["A1","A2"]}, {id:"QB",date:"10 Jul",feeds:["B1","B2"]},
+    {id:"QC",date:"11 Jul",feeds:["C1","C2"]},{id:"QD",date:"11 Jul",feeds:["D1","D2"]}
+  ],
+  sf: [
+    {id:"S1",date:"14 Jul",feeds:["QA","QB"]}, {id:"S2",date:"15 Jul",feeds:["QC","QD"]}
+  ],
+  final: [ {id:"F",date:"19 Jul",feeds:["S1","S2"]} ]
+};
+
+const COLS = [
+  {key:"r32",   label:"Round of 32"},
+  {key:"r16",   label:"Round of 16"},
+  {key:"qf",    label:"Quarter-Finals"},
+  {key:"sf",    label:"Semi-Finals"},
+  {key:"final", label:"Final"}
+];
+// id -> match object, and id -> which match it feeds into
+const MATCH = {};
+const FEEDS_INTO = {};
+for (const r of Object.values(ROUNDS)) for (const m of r) {
+  MATCH[m.id] = m;
+  if (m.feeds) m.feeds.forEach(f => FEEDS_INTO[f] = m.id);
+}
+
+/* winner of each match id */
+const winners = {};
+
+/* Candidates (team codes, possibly null) feeding a match's two slots */
+function candidates(m) {
+  if (m.teams) return m.teams.slice();
+  return m.feeds.map(f => winners[f] || null);
+}
+
+/* Pick a winner; clear any downstream pick that's no longer valid */
+function pick(matchId, code) {
+  if (winners[matchId] === code) return; // no change
+  winners[matchId] = code;
+  let cur = matchId;
+  while (FEEDS_INTO[cur]) {
+    const next = FEEDS_INTO[cur];
+    const cand = candidates(MATCH[next]);
+    if (winners[next] && !cand.includes(winners[next])) {
+      delete winners[next];
+      cur = next; // keep cascading
+    } else {
+      cur = next; // candidates changed upstream; continue checking chain
+    }
+  }
+  render();
+}
+
+function slotEl(matchId, code, isPicked, otherPicked) {
+  const div = document.createElement("div");
+  if (!code) {
+    div.className = "slot tbd";
+    div.innerHTML = `<span class="flag">·</span><span class="code"></span><span class="nm">TBD</span>`;
+    return div;
+  }
+  const t = TEAMS[code];
+  div.className = "slot" + (isPicked ? " picked" : (otherPicked ? " dimmed" : ""));
+  div.innerHTML = `<span class="flag">${t.flag}</span><span class="code">${code}</span><span class="nm">${t.name}</span>`;
+  div.onclick = () => pick(matchId, code);
+  return div;
+}
+
+function render() {
+  const root = document.getElementById("bracket");
+  root.innerHTML = "";
+  for (const col of COLS) {
+    const c = document.createElement("div");
+    c.className = "col";
+    const h = document.createElement("h2"); h.textContent = col.label; c.appendChild(h);
+    for (const m of ROUNDS[col.key]) {
+      const cand = candidates(m);
+      const w = winners[m.id] || null;
+      const box = document.createElement("div");
+      box.className = "match";
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `<span class="id">${m.id}</span><span>${m.date}</span>`;
+      box.appendChild(meta);
+      const anyPicked = !!w;
+      cand.forEach(code => {
+        box.appendChild(slotEl(m.id, code, code && code === w, anyPicked && code !== w));
+      });
+      c.appendChild(box);
+    }
+    root.appendChild(c);
+  }
+  // champion column
+  const champCol = document.createElement("div");
+  champCol.className = "col col-champ";
+  const ch = document.createElement("div");
+  const champ = winners["F"] || null;
+  ch.className = "champ-box" + (champ ? " set" : "");
+  const t = champ ? TEAMS[champ] : null;
+  ch.innerHTML = `<div class="lbl">Champion</div>
+    <div class="big">${t ? t.flag : "🏆"}</div>
+    <div class="nm">${t ? t.name : "—"}</div>`;
+  champCol.appendChild(ch);
+  root.appendChild(champCol);
+
+  updateStatus();
+}
+
+const TOTAL_MATCHES = 16 + 8 + 4 + 2 + 1; // 31
+function decidedCount() { return Object.values(winners).filter(Boolean).length; }
+function isComplete() { return decidedCount() === TOTAL_MATCHES; }
+
+function updateStatus() {
+  const n = decidedCount();
+  document.getElementById("count").innerHTML = `<b>${n}</b> / ${TOTAL_MATCHES} matches picked`;
+  document.getElementById("btn-generate").disabled = !isComplete();
+  if (isComplete()) generate();
+  else document.getElementById("out").value = "";
+}
+
+function generate() {
+  const r16 = ROUNDS.r32.map(m => winners[m.id]);
+  const qf  = ROUNDS.r16.map(m => winners[m.id]);
+  const sf  = ROUNDS.qf.map(m => winners[m.id]);
+  const fin = ROUNDS.sf.map(m => winners[m.id]);
+  const champion = winners["F"];
+
+  const display = (document.getElementById("f-display").value || "").trim() || "newplayer";
+  const real = (document.getElementById("f-real").value || "").trim();
+
+  const obj = {
+    fifaUsername: display,
+    realName: real || display,
+    displayName: display,
+    hasBracket: true,
+    source: "manual",
+    r16, qf, sf, final: fin, champion
+  };
+
+  // Pretty-print but keep the pick arrays on single lines (matches picks.json style)
+  const arr = a => "[" + a.map(x => `"${x}"`).join(",") + "]";
+  const json =
+`{
+  "fifaUsername": ${JSON.stringify(obj.fifaUsername)}, "realName": ${JSON.stringify(obj.realName)}, "displayName": ${JSON.stringify(obj.displayName)},
+  "hasBracket": true, "source": "manual",
+  "r16": ${arr(r16)},
+  "qf": ${arr(qf)},
+  "sf": ${arr(sf)}, "final": ${arr(fin)}, "champion": ${JSON.stringify(champion)}
+}`;
+  document.getElementById("out").value = json;
+  return json;
+}
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+document.getElementById("btn-reset").onclick = () => {
+  for (const k of Object.keys(winners)) delete winners[k];
+  render();
+};
+document.getElementById("btn-generate").onclick = () => {
+  generate();
+  document.getElementById("out").scrollIntoView({behavior:"smooth", block:"center"});
+};
+document.getElementById("btn-copy").onclick = async () => {
+  const v = document.getElementById("out").value;
+  if (!v) { toast("Finish the bracket first"); return; }
+  try { await navigator.clipboard.writeText(v); toast("Copied ✓"); }
+  catch { const o = document.getElementById("out"); o.select(); document.execCommand("copy"); toast("Copied ✓"); }
+};
+document.getElementById("btn-download").onclick = () => {
+  const v = document.getElementById("out").value;
+  if (!v) { toast("Finish the bracket first"); return; }
+  const name = (document.getElementById("f-display").value || "bracket").trim() || "bracket";
+  const blob = new Blob([v], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${name}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+["f-display","f-real"].forEach(id =>
+  document.getElementById(id).addEventListener("input", () => { if (isComplete()) generate(); })
+);
+
+render();
+</script>
+</body>
+</html>
