@@ -119,10 +119,22 @@
       "qf": ["FRA","NED","POR","USA","BRA","MEX","ARG","COL"],
       "sf": ["FRA","POR","MEX","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
     },
+    {
+      "fifaUsername": "CWonder", "realName": "Charles Wong", "displayName": "CWonder",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","RSA","MAR","POR","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","MAR","ESP","USA","BRA","ENG","ARG","COL"],
+      "sf": ["MAR","ESP","BRA","ARG"], "final": ["ESP","ARG"], "champion": "ESP"
+    },
+    {
+      "fifaUsername": "soffffffff", "realName": "Sof", "displayName": "soffffffff",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","AUS","SUI","COL"],
+      "qf": ["FRA","NED","ESP","BEL","NOR","ENG","ARG","SUI"],
+      "sf": ["FRA","ESP","ENG","ARG"], "final": ["ESP","ARG"], "champion": "ESP"
+    },
 
-    { "fifaUsername": "soffffffff", "realName": "Sof", "displayName": "soffffffff", "hasBracket": false },
     { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
-    { "fifaUsername": "CWonder", "realName": "Charles Wong", "displayName": "CWonder", "hasBracket": false },
     { "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES", "hasBracket": false },
     { "fifaUsername": "Waywin", "realName": "Waylon", "displayName": "Waywin", "hasBracket": false },
     { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
