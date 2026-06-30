@@ -353,6 +353,28 @@ body.modal-open { overflow: hidden; }
   color: var(--ink-dim);
 }
 
+/* MLB steroid-era "tainted record" asterisk */
+.taint {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 2px;
+  font-size: 1.35em;
+  font-weight: 800;
+  line-height: 0.6;
+  color: #ff2d2d;
+  text-shadow: 0 0 8px rgba(255, 45, 45, 0.85), 0 0 2px rgba(255, 45, 45, 0.9);
+  cursor: help;
+  animation: taint-pulse 1.4s ease-in-out infinite;
+}
+#modal-title .taint { font-size: 1.25em; }
+@keyframes taint-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .taint { animation: none; }
+}
+
 /* per-round breakdown badges */
 .breakdown { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
 .badge {

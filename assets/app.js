@@ -103,6 +103,20 @@ function el(tag, cls, html) {
   return e;
 }
 
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+// Render a display name, turning any trailing asterisk(s) into a prominent
+// "tainted record" mark (MLB steroid-era style).
+function fmtName(name) {
+  const m = String(name).match(/^(.*?)(\*+)$/);
+  if (!m) return escHtml(name);
+  return escHtml(m[1]) + '<sup class="taint" title="Record under review">' + m[2] + "</sup>";
+}
+
 function renderStatus(bracket, results, actuals) {
   const bar = document.getElementById("status-bar");
   const r32Total = bracket.rounds.r32.length;
@@ -230,7 +244,7 @@ function openDetail(r, bracket, scoring, actuals, eliminated) {
 
   const html =
     '<div class="modal-head"><div class="modal-rank">' + rankTxt + "</div><div>" +
-    '<h3 id="modal-title">' + p.displayName + "</h3>" +
+    '<h3 id="modal-title">' + fmtName(p.displayName) + "</h3>" +
     '<div class="modal-sub"><strong>' + r.total + " pts</strong> · Champion pick: " +
     (champTeam ? champTeam.flag + " " + champTeam.name : "—") + "</div></div></div>" +
     '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>' +
@@ -266,7 +280,7 @@ function renderRows(rows, bracket, scoring, onSelect) {
     const who = el("div", "who");
     who.appendChild(el("div", "champ-flag", champTeam ? champTeam.flag : "🎲"));
     const nameBlock = el("div", "name-block");
-    nameBlock.appendChild(el("div", "name", r.displayName));
+    nameBlock.appendChild(el("div", "name", fmtName(r.displayName)));
     nameBlock.appendChild(
       el("div", "champ-label", `Champion pick: ${champTeam ? champTeam.name : "—"}`)
     );
