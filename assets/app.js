@@ -114,7 +114,7 @@ function escHtml(s) {
 function fmtName(name) {
   const m = String(name).match(/^(.*?)(\*+)$/);
   if (!m) return escHtml(name);
-  return escHtml(m[1]) + '<sup class="taint" title="Record under review">' + m[2] + "</sup>";
+  return escHtml(m[1]) + '<sup class="taint" data-tip="Record under review — suspected performance enhancement" tabindex="0">' + m[2] + "</sup>";
 }
 
 function renderStatus(bracket, results, actuals) {
