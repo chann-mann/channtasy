@@ -247,6 +247,9 @@ function openDetail(r, bracket, scoring, actuals, eliminated) {
     '<h3 id="modal-title">' + fmtName(p.displayName) + "</h3>" +
     '<div class="modal-sub"><strong>' + r.total + " pts</strong> · Champion pick: " +
     (champTeam ? champTeam.flag + " " + champTeam.name : "—") + "</div></div></div>" +
+    (/\*+$/.test(p.displayName)
+      ? '<div class="taint-banner">⚠ Record under review — suspected performance enhancement</div>'
+      : "") +
     '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>' +
     '<div class="bk-scroll">' +
       '<div class="bk-labels"><span>R32</span><span>R16</span><span>QF</span><span>SF</span><span>Final</span><span>🏆</span></div>' +

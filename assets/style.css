@@ -368,6 +368,20 @@ body.modal-open { overflow: hidden; }
   outline: none;
   animation: taint-pulse 1.4s ease-in-out infinite;
 }
+/* tainted-record banner inside the bracket popup */
+.taint-banner {
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 45, 45, 0.16), rgba(255, 45, 45, 0.08));
+  border: 1px solid rgba(255, 45, 45, 0.55);
+  color: #ffb3b3;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-shadow: 0 0 8px rgba(255, 45, 45, 0.4);
+}
+
 /* instant custom tooltip (native title is slow/unreliable) */
 .taint::before {
   content: attr(data-tip);
