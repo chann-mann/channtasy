@@ -183,6 +183,7 @@ body.modal-open { overflow: hidden; }
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+.modal-backdrop[hidden] { display: none; }
 .modal-panel {
   position: relative;
   width: 100%;
@@ -231,51 +232,70 @@ body.modal-open { overflow: hidden; }
 .legend .hit::before { background: var(--green); }
 .legend .miss::before { background: #ff6b6b; }
 .legend .pend::before { background: rgba(255,255,255,0.22); }
-/* bracket tree */
+/* ---- bracket tree (recursive) ----
+ * box width 86 + connector gap 22 = 108px per round column. */
 .bk-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
   margin: 0 -6px;
-  padding: 0 6px 6px;
+  padding: 0 6px 8px;
 }
-.bk { display: flex; align-items: stretch; min-width: max-content; gap: 0; }
-.bk-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex: 0 0 auto;
-  width: 96px;
-  padding: 0 7px;
-}
-.bk-rlabel {
-  text-align: center;
+.bk-labels { display: flex; min-width: max-content; margin-bottom: 8px; }
+.bk-labels span {
+  width: 108px;
+  flex: 0 0 108px;
   font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--ink-dim);
-  margin-bottom: 8px;
-  height: 12px;
 }
-.bk-match {
+.bk-rootrow { display: flex; align-items: center; min-width: max-content; }
+
+.node { display: flex; align-items: center; }
+.node-kids { display: flex; flex-direction: column; justify-content: center; position: relative; }
+/* vertical joiner between a pair of feeder boxes */
+.node-kids::after {
+  content: "";
+  position: absolute;
+  right: -11px;
+  top: 25%;
+  bottom: 25%;
+  width: 1px;
+  background: var(--card-line);
+}
+
+.bk-box {
   position: relative;
-  margin: 5px 0;
+  width: 86px;
+  flex: 0 0 86px;
+  margin: 4px 0 4px 22px;
   border: 1px solid var(--card-line);
   border-radius: 7px;
   overflow: hidden;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.04);
 }
-/* horizontal connector stub to the next round */
-.bk-col:not(.bk-champ-col):not(:nth-last-child(2)) .bk-match::after,
-.bk-col:nth-last-child(2) .bk-match::after {
+.node.leaf > .bk-box { margin-left: 0; }
+/* horizontal stub out the right of every box (toward its parent's joiner) */
+.bk-box::after {
   content: "";
   position: absolute;
-  right: -8px;
+  right: -11px;
   top: 50%;
-  width: 8px;
+  width: 11px;
   height: 1px;
   background: var(--card-line);
 }
+/* horizontal stub into the left of boxes that have feeders */
+.node:not(.leaf) > .bk-box::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  width: 11px;
+  height: 1px;
+  background: var(--card-line);
+}
+
 .bk-team {
   display: flex;
   align-items: center;
@@ -284,17 +304,18 @@ body.modal-open { overflow: hidden; }
   font-size: 11px;
   line-height: 1.3;
 }
-.bk-team + .bk-team { border-top: 1px solid rgba(255,255,255,0.06); }
+.bk-team + .bk-team { border-top: 1px solid rgba(255, 255, 255, 0.08); }
 .bk-fl { font-size: 13px; width: 16px; text-align: center; flex: 0 0 auto; }
-.bk-code { font-weight: 600; letter-spacing: 0.02em; }
+.bk-code { font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
 .bk-team.drop { color: var(--ink-dim); opacity: 0.5; }
 .bk-team.pick { font-weight: 700; }
 .bk-team.pick.hit { background: var(--green); color: #04210f; }
-.bk-team.pick.miss { background: rgba(255,107,107,0.16); color: #ffb1b1; text-decoration: line-through; }
-.bk-team.pick.pend { background: rgba(247,201,72,0.10); color: #fff; }
-.bk-champ-col { justify-content: center; }
-.bk-champ { border-color: var(--gold); }
-.bk-champ .bk-team { padding: 7px 8px; font-size: 12px; }
+.bk-team.pick.miss { background: rgba(255, 107, 107, 0.16); color: #ffb1b1; text-decoration: line-through; }
+.bk-team.pick.pend { background: rgba(247, 201, 72, 0.10); color: #fff; }
+
+.bk-champ-box { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(247, 201, 72, 0.3); }
+.bk-champ-box::after { display: none; }
+.bk-champ-box .bk-team { padding: 7px 8px; font-size: 12px; }
 
 @media (max-width: 620px) {
   .modal-backdrop { padding: 0; }
