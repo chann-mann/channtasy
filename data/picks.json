@@ -11,6 +11,13 @@
       "sf": ["FRA","ESP","NOR","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
     },
     {
+      "fifaUsername": "Eric Agresti", "realName": "Eric Agresti", "displayName": "Eric Agresti",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","NED","ESP","BEL","BRA","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
+    },
+    {
       "fifaUsername": "Ellibobellibobelli", "realName": "Elli Seo", "displayName": "Ellibobellibobelli",
       "hasBracket": true, "source": "pdf",
       "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","JPN","NOR","MEX","ENG","ARG","AUS","SUI","COL"],
