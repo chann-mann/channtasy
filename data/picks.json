@@ -149,9 +149,9 @@
     {
       "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank",
       "hasBracket": true, "source": "image",
-      "flags": "Export was cut off at the bottom: R32 picks for AUS/EGY (M14), SUI/ALG (M15), COL/GHA (M16) and the Vancouver R16 (D2/QF) are missing. Does not affect current score (those games unplayed). FIFA username still unknown.",
-      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","BRA","NOR","ECU","ENG","ARG"],
-      "qf": ["FRA","NED","POR","USA","BRA","ECU","ARG"],
+      "flags": "Bottom quarter (cut off in export) completed from commissioner: EGY, SUI, GHA in R16; GHA reaches QF. FIFA username still unknown.",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","BRA","NOR","ECU","ENG","ARG","EGY","SUI","GHA"],
+      "qf": ["FRA","NED","POR","USA","BRA","ECU","ARG","GHA"],
       "sf": ["FRA","POR","BRA","ARG"], "final": ["POR","ARG"], "champion": "ARG"
     },
     { "fifaUsername": "Saka Rice Krispies", "realName": "Ravi", "displayName": "Saka Rice Krispies", "hasBracket": false, "note": "Username likely 'Saka Rice Krispies' — commissioner to confirm" },
