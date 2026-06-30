@@ -1,16 +1,16 @@
 :root {
-  --navy-0: #0a1430;
-  --navy-1: #0d1d4d;
-  --navy-2: #143284;
-  --blue-accent: #2b6fff;
-  --gold: #f7c948;
-  --gold-soft: #ffe08a;
-  --ink: #eaf0ff;
-  --ink-dim: #9fb0d8;
-  --card: rgba(255, 255, 255, 0.04);
-  --card-line: rgba(255, 255, 255, 0.10);
-  --green: #36d399;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --bg-0: #090C11;
+  --bg-1: #0E1116;
+  --gold: #DCBB66;
+  --gold-soft: #EFDCA4;
+  --gold-deep: #9C7728;
+  --ink: #ECEFF4;
+  --ink-dim: #868F9E;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-line: rgba(255, 255, 255, 0.07);
+  --green: #4EAA7B;
+  --green-soft: #8AD7AC;
+  --shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
 }
 
 * { box-sizing: border-box; }
@@ -22,8 +22,8 @@ body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(1200px 600px at 50% -10%, var(--navy-2), transparent 60%),
-    linear-gradient(180deg, var(--navy-1) 0%, var(--navy-0) 100%);
+    radial-gradient(1100px 560px at 50% -8%, rgba(220, 187, 102, 0.10), transparent 60%),
+    linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
   background-attachment: fixed;
   position: relative;
   overflow-x: hidden;
@@ -35,7 +35,7 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0.035;
   background-image:
     linear-gradient(transparent 0, transparent calc(100% - 1px), #fff 100%),
     radial-gradient(circle at 50% 0, transparent 118px, #fff 119px, #fff 120px, transparent 121px);
@@ -52,9 +52,11 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 48px 16px 18px;
 }
 .crest {
-  font-size: 46px;
-  line-height: 1;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+  height: 94px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 22px rgba(220, 187, 102, 0.28));
 }
 .site-header h1 {
   font-family: "Barlow Condensed", sans-serif;
@@ -92,8 +94,8 @@ main {
   margin: 18px auto 6px;
   padding: 14px 26px;
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(247, 201, 72, 0.16), rgba(247, 201, 72, 0.05));
-  border: 1px solid rgba(247, 201, 72, 0.45);
+  background: linear-gradient(180deg, rgba(220, 187, 102, 0.14), rgba(220, 187, 102, 0.04));
+  border: 1px solid rgba(220, 187, 102, 0.40);
   width: fit-content;
   box-shadow: var(--shadow);
 }
@@ -132,7 +134,7 @@ main {
 
 /* ---------- Leaderboard ---------- */
 .leaderboard {
-  background: rgba(8, 16, 42, 0.5);
+  background: rgba(255, 255, 255, 0.018);
   border: 1px solid var(--card-line);
   border-radius: 16px;
   overflow: hidden;
@@ -189,7 +191,7 @@ body.modal-open { overflow: hidden; }
   width: 100%;
   max-width: 940px;
   margin: auto;
-  background: linear-gradient(180deg, #122454 0%, #0a1430 100%);
+  background: linear-gradient(180deg, #141922 0%, #0B0E13 100%);
   border: 1px solid var(--card-line);
   border-radius: 18px;
   box-shadow: var(--shadow);
@@ -309,11 +311,11 @@ body.modal-open { overflow: hidden; }
 .bk-code { font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
 .bk-team.drop { color: var(--ink-dim); opacity: 0.5; }
 .bk-team.pick { font-weight: 700; }
-.bk-team.pick.hit { background: var(--green); color: #04210f; }
+.bk-team.pick.hit { background: rgba(78, 170, 123, 0.15); color: var(--green-soft); box-shadow: inset 0 0 0 1px rgba(78, 170, 123, 0.45); }
 .bk-team.pick.miss { background: rgba(255, 107, 107, 0.16); color: #ffb1b1; text-decoration: line-through; }
-.bk-team.pick.pend { background: rgba(247, 201, 72, 0.10); color: #fff; }
+.bk-team.pick.pend { background: rgba(220, 187, 102, 0.12); color: #fff; }
 
-.bk-champ-box { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(247, 201, 72, 0.3); }
+.bk-champ-box { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(220, 187, 102, 0.3); }
 .bk-champ-box::after { display: none; }
 .bk-champ-box .bk-team { padding: 7px 8px; font-size: 12px; }
 
@@ -330,7 +332,7 @@ body.modal-open { overflow: hidden; }
   text-align: center;
 }
 .row.top1 .rank, .row.top2 .rank, .row.top3 .rank { font-size: 24px; }
-.row.top1 { background: linear-gradient(90deg, rgba(247, 201, 72, 0.14), transparent 70%); }
+.row.top1 { background: linear-gradient(90deg, rgba(220, 187, 102, 0.15), rgba(220, 187, 102, 0.03) 55%, transparent 80%); }
 
 .who { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .champ-flag {
@@ -413,7 +415,7 @@ body.modal-open { overflow: hidden; }
   color: var(--ink-dim);
   white-space: nowrap;
 }
-.badge.scored { color: #04210f; background: var(--green); border-color: transparent; }
+.badge.scored { color: var(--green-soft); background: rgba(78, 170, 123, 0.15); border-color: rgba(78, 170, 123, 0.5); }
 .badge .lbl { opacity: 0.65; margin-right: 3px; }
 
 .total {
