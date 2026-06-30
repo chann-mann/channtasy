@@ -157,7 +157,13 @@
     },
     { "fifaUsername": "Waywin", "realName": "Waylon", "displayName": "Waywin", "hasBracket": false },
     { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
-    { "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso", "hasBracket": false },
+    {
+      "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso",
+      "hasBracket": true, "source": "image",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","GHA"],
+      "qf": ["FRA","NED","ESP","USA","BRA","MEX","ARG","SUI"],
+      "sf": ["FRA","ESP","BRA","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
+    },
     {
       "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "(*) iamphilco", "paid": false,
       "hasBracket": true, "source": "manual",
