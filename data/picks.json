@@ -146,7 +146,14 @@
       "qf": ["FRA","MAR","ESP","USA","BRA","ENG","ARG","COL"],
       "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
     },
-    { "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank", "hasBracket": false, "note": "FIFA username unknown — confirm" },
+    {
+      "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank",
+      "hasBracket": true, "source": "image",
+      "flags": "Export was cut off at the bottom: R32 picks for AUS/EGY (M14), SUI/ALG (M15), COL/GHA (M16) and the Vancouver R16 (D2/QF) are missing. Does not affect current score (those games unplayed). FIFA username still unknown.",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","BRA","NOR","ECU","ENG","ARG"],
+      "qf": ["FRA","NED","POR","USA","BRA","ECU","ARG"],
+      "sf": ["FRA","POR","BRA","ARG"], "final": ["POR","ARG"], "champion": "ARG"
+    },
     { "fifaUsername": "Saka Rice Krispies", "realName": "Ravi", "displayName": "Saka Rice Krispies", "hasBracket": false, "note": "Username likely 'Saka Rice Krispies' — commissioner to confirm" },
     { "fifaUsername": "White-Morpheus", "realName": "Erik Agresti", "displayName": "White-Morpheus", "hasBracket": false, "note": "FIFA username White-Morpheus — confirm" }
   ]
