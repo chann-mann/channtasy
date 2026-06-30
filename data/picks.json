@@ -133,6 +133,13 @@
       "qf": ["FRA","NED","ESP","BEL","NOR","ENG","ARG","SUI"],
       "sf": ["FRA","ESP","ENG","ARG"], "final": ["ESP","ARG"], "champion": "ESP"
     },
+    {
+      "fifaUsername": "Chagoalya", "realName": "Chris Chaboya", "displayName": "Chagoalya",
+      "hasBracket": true, "source": "manual",
+      "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","JPN","CIV","MEX","ENG","ARG","EGY","ALG","COL"],
+      "qf": ["FRA","NED","ESP","SEN","CIV","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
+    },
 
     { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
     { "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES", "hasBracket": false },
