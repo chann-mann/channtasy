@@ -81,9 +81,21 @@ function scoreParticipant(p, scoring, actuals) {
   return { total, perRound };
 }
 
+// Tiebreak sort key: normal alphabetic, but names led by a symbol (e.g. the
+// "(*)" tainted marker) sort AFTER all a-z/A-Z names. Letters, digits and
+// spaces keep their order; any other char is pushed to the end of the alphabet.
+function nameSortKey(name) {
+  return String(name).toLowerCase().replace(/[^a-z0-9 ]/g, "￿");
+}
+
 function rankRows(rows) {
-  // sort by total desc; assign shared ("1224") ranks for ties
-  rows.sort((a, b) => b.total - a.total || a.displayName.localeCompare(b.displayName));
+  // sort by total desc; tiebreak alphabetically (symbols last); assign shared ranks
+  rows.sort(
+    (a, b) =>
+      b.total - a.total ||
+      nameSortKey(a.displayName).localeCompare(nameSortKey(b.displayName)) ||
+      a.displayName.localeCompare(b.displayName)
+  );
   let lastTotal = null;
   let lastRank = 0;
   rows.forEach((r, i) => {
@@ -109,12 +121,84 @@ function escHtml(s) {
   ));
 }
 
-// Render a display name, turning any trailing asterisk(s) into a prominent
-// "tainted record" mark (MLB steroid-era style).
+const TAINT_TIP = "Record under review — suspected performance enhancement";
+
+// A name is "tainted" (MLB steroid-era style) if it carries an asterisk marker:
+// a leading "(*)" prefix (preferred) or a trailing "*" (legacy). Returns the
+// clean base name with the marker stripped.
+function taintInfo(name) {
+  const s = String(name);
+  let m;
+  if ((m = s.match(/^\(\*\)\s*(.*)$/))) return { tainted: true, base: m[1] };
+  if ((m = s.match(/^(.*?)\*+$/))) return { tainted: true, base: m[1] };
+  return { tainted: false, base: s };
+}
+
+// Render a display name. Tainted names show a prominent "(*)" mark and the whole
+// name becomes the hover/focus target for the "record under review" tooltip.
 function fmtName(name) {
-  const m = String(name).match(/^(.*?)(\*+)$/);
-  if (!m) return escHtml(name);
-  return escHtml(m[1]) + '<sup class="taint" data-tip="Record under review — suspected performance enhancement" tabindex="0">' + m[2] + "</sup>";
+  const { tainted, base } = taintInfo(name);
+  if (!tainted) return escHtml(name);
+  return (
+    '<span class="taint-name" tabindex="0" data-tip="' + escHtml(TAINT_TIP) + '">' +
+    "(*) " + escHtml(base) +
+    "</span>"
+  );
+}
+
+// One shared, fixed-positioned tooltip element + event delegation. Fixed
+// positioning means no overflow:hidden ancestor can clip it, which is what made
+// the previous pure-CSS tooltip flaky.
+function initTooltip() {
+  if (document.querySelector(".app-tooltip")) return;
+  const tip = el("div", "app-tooltip");
+  tip.setAttribute("role", "tooltip");
+  tip.hidden = true;
+  document.body.appendChild(tip);
+  let cur = null;
+
+  function place() {
+    if (!cur) return;
+    const r = cur.getBoundingClientRect();
+    const t = tip.getBoundingClientRect();
+    let top = r.top - t.height - 8;
+    if (top < 4) top = r.bottom + 8; // flip below if no room above
+    let left = r.left + r.width / 2 - t.width / 2;
+    left = Math.max(6, Math.min(left, window.innerWidth - t.width - 6));
+    tip.style.top = top + "px";
+    tip.style.left = left + "px";
+  }
+  function show(target) {
+    cur = target;
+    tip.textContent = target.getAttribute("data-tip") || "";
+    tip.hidden = false;
+    place(); // forces reflow so the opacity transition animates from this point
+    tip.classList.add("show");
+  }
+  function hide() {
+    cur = null;
+    tip.classList.remove("show");
+    tip.hidden = true;
+  }
+
+  document.addEventListener("mouseover", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t && t !== cur) show(t);
+  });
+  document.addEventListener("mouseout", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t && t === cur && !t.contains(e.relatedTarget)) hide();
+  });
+  document.addEventListener("focusin", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t) show(t);
+  });
+  document.addEventListener("focusout", (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (t && t === cur) hide();
+  });
+  window.addEventListener("scroll", place, true);
+  window.addEventListener("resize", place);
 }
 
 function renderStatus(bracket, results, actuals) {
@@ -247,8 +331,8 @@ function openDetail(r, bracket, scoring, actuals, eliminated) {
     '<h3 id="modal-title">' + fmtName(p.displayName) + "</h3>" +
     '<div class="modal-sub"><strong>' + r.total + " pts</strong> · Champion pick: " +
     (champTeam ? champTeam.flag + " " + champTeam.name : "—") + "</div></div></div>" +
-    (/\*+$/.test(p.displayName)
-      ? '<div class="taint-banner">⚠ Record under review — suspected performance enhancement</div>'
+    (taintInfo(p.displayName).tainted
+      ? '<div class="taint-banner">⚠ ' + TAINT_TIP + "</div>"
       : "") +
     '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>' +
     '<div class="bk-scroll">' +
@@ -356,6 +440,7 @@ async function main() {
         `<span class="prize-sub">prize pool · $${perPerson} × ${players} players</span>`;
     }
 
+    initTooltip();
     renderStatus(bracket, results, actuals);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
     renderPending(pending);

@@ -141,7 +141,13 @@
       "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
     },
 
-    { "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata", "hasBracket": false },
+    {
+      "fifaUsername": "Iwata", "realName": "Iwata", "displayName": "Iwata",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","RSA","NED","POR","ESP","USA","SEN","JPN","CIV","MEX","ENG","ARG","AUS","ALG","COL"],
+      "qf": ["FRA","NED","ESP","USA","JPN","ENG","ARG","COL"],
+      "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "FRA"
+    },
     {
       "fifaUsername": "SHANSCORES", "realName": "Shannon Garvella", "displayName": "SHANSCORES",
       "hasBracket": true, "source": "pdf",
@@ -153,7 +159,7 @@
     { "fifaUsername": "Flacko86", "realName": "Ozo", "displayName": "Flacko86", "hasBracket": false },
     { "fifaUsername": "Pablo P Caso", "realName": "Pete", "displayName": "Pablo P Caso", "hasBracket": false },
     {
-      "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "iamphilco*", "paid": false,
+      "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "(*) iamphilco", "paid": false,
       "hasBracket": true, "source": "manual",
       "r16": ["GER","FRA","CAN","MAR","CRO","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
       "qf": ["FRA","MAR","ESP","USA","BRA","ENG","ARG","COL"],
