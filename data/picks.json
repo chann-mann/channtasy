@@ -161,7 +161,13 @@
       "qf": ["FRA","NED","POR","USA","BRA","ECU","ARG","GHA"],
       "sf": ["FRA","POR","BRA","ARG"], "final": ["POR","ARG"], "champion": "ARG"
     },
-    { "fifaUsername": "Saka Rice Krispies", "realName": "Ravi", "displayName": "Saka Rice Krispies", "hasBracket": false, "note": "Username likely 'Saka Rice Krispies' — commissioner to confirm" },
+    {
+      "fifaUsername": "Saka Rice Krispies", "realName": "Ravi", "displayName": "Saka Rice Krispies",
+      "hasBracket": true, "source": "pdf",
+      "r16": ["GER","FRA","RSA","MAR","CRO","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "qf": ["FRA","MAR","ESP","BEL","NOR","ENG","ARG","COL"],
+      "sf": ["FRA","BEL","ENG","ARG"], "final": ["BEL","ARG"], "champion": "ARG"
+    },
     { "fifaUsername": "White-Morpheus", "realName": "Erik Agresti", "displayName": "White-Morpheus", "hasBracket": false, "note": "FIFA username White-Morpheus — confirm" }
   ]
 }
