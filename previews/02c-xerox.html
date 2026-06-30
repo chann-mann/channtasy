@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — XEROX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Anton&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#fcfcfa;--ink:#111;--acid:#f6ff00}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Courier Prime",monospace;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(var(--ink) 0.7px,transparent 0.8px);background-size:4px 4px;background-blend-mode:multiply}
+.sheet{max-width:880px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 0 1px #000}
+.hero{padding:48px 24px 40px;border-bottom:6px solid var(--ink);position:relative}
+.tape{position:absolute;top:14px;left:50%;transform:translateX(-50%) rotate(-3deg);background:var(--acid);padding:4px 16px;font-family:"Courier Prime";font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;box-shadow:2px 2px 0 #000;mix-blend-mode:multiply}
+h1{font-family:"Anton";font-size:clamp(62px,17vw,178px);line-height:.82;text-transform:uppercase;margin:26px 0 0;text-align:center;
+  filter:contrast(1.2)}
+h1 span{display:block}
+h1 .inv{background:#000;color:var(--paper);transform:rotate(-1deg);display:inline-block;padding:0 .06em}
+.kicker{font-weight:700;font-size:14px;margin:18px auto 0;max-width:520px;line-height:1.55;text-align:center;border-top:2px dashed #000;border-bottom:2px dashed #000;padding:10px 0}
+.cc-prize{margin:22px auto 0;display:table;border:3px solid #000;padding:10px 22px;text-align:center;box-shadow:5px 5px 0 #000}
+.cc-prize-amt{font-family:"Anton";font-size:clamp(34px,8vw,52px);line-height:.9}
+.cc-prize-lbl{font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.1em}
+main{padding:30px 22px 50px}
+.cc-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.cc-chip{border:2px solid #000;padding:5px 11px;font-size:11px;font-weight:700;text-transform:uppercase}
+.cc-chip-champ{background:#000;color:var(--paper)}
+.cc-board{list-style:none}
+.cc-row{display:grid;grid-template-columns:46px 36px 1fr auto 66px;align-items:center;gap:12px;border:2px solid #000;padding:12px 14px;margin-bottom:8px;background:var(--paper)}
+.cc-row:nth-child(3n){transform:rotate(.4deg)}.cc-row:nth-child(3n+1){transform:rotate(-.4deg)}
+.cc-row[data-top="1"]{background:#000;color:var(--paper)}
+.cc-row[data-top="1"] .cc-badge{border-color:var(--paper);color:var(--paper)}
+.cc-rank{font-family:"Anton";font-size:26px;text-align:center}
+.cc-flag{font-size:22px;text-align:center;filter:grayscale(1) contrast(1.4)}
+.cc-name{font-family:"Archivo Black";font-size:17px;text-transform:uppercase;display:block;line-height:1.05}
+.cc-champ{font-size:10px;text-transform:uppercase;letter-spacing:.04em;opacity:.6}
+.cc-bd{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.cc-badge{font-weight:700;font-size:11px;padding:2px 6px;border:1.5px solid #000}
+.cc-badge i{font-style:normal;opacity:.5;margin-right:3px}
+.cc-badge[data-on="true"]{background:var(--acid);color:#000;border-color:#000;mix-blend-mode:multiply}
+.cc-total{font-family:"Anton";font-size:28px;text-align:right}
+.waiting{margin-top:28px;border-top:3px solid #000;padding-top:16px}
+.waiting h2{font-family:"Anton";text-transform:uppercase;font-size:22px;margin-bottom:12px}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-weight:700;font-size:12px;border:2px solid #000;padding:4px 10px;text-transform:uppercase;background:repeating-linear-gradient(45deg,transparent 0 4px,rgba(0,0,0,.08) 4px 6px)}
+.foot{padding:0 22px 60px;font-size:11px;line-height:1.6;text-align:center;color:#555}
+@media(max-width:620px){.cc-row{grid-template-columns:36px 1fr 60px;grid-template-areas:"r n t" "r b b";gap:8px}.cc-rank{grid-area:r}.cc-flag{display:none}.cc-id{grid-area:n}.cc-bd{grid-area:b;justify-content:flex-start;margin-top:6px}.cc-total{grid-area:t}}
+</style>
+</head>
+<body>
+<div class="sheet">
+<header class="hero">
+  <span class="tape">photocopy &amp; distribute</span>
+  <h1><span>FUCK</span><span class="inv">FIFA</span></h1>
+  <p class="kicker">CHANNTASY CUP ZINE — cut, paste, jammed through the office copier at 3am. Issue #26.</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Not pinned up yet</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot">Hand-stapled parody. Generic countries only. No sponsors, no marks, no permission asked.</footer>
+</div>
+<script src="preview.js"></script>
+</body>
+</html>

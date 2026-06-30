@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Channtasy Cup — RIOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Saira+Condensed:wght@500;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0c0c;--concrete:#161514;--spray:#ff3b1d;--spray2:#c2ff1f;--ink:#ededea;--dim:#8a8a82}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Saira Condensed",sans-serif;color:var(--ink);background:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E")}
+.hero{position:relative;padding:60px 22px 56px;border-bottom:4px solid var(--spray)}
+.hero-inner{max-width:920px;margin:0 auto}
+.tag{display:inline-block;font-family:"Share Tech Mono";color:var(--spray2);border:2px solid var(--spray2);padding:5px 11px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;transform:rotate(-2deg)}
+h1{font-family:"Black Ops One";font-size:clamp(58px,15vw,168px);line-height:.86;letter-spacing:.01em;margin:18px 0 0;color:var(--ink);
+  text-shadow:0 0 1px var(--spray),3px 4px 0 rgba(255,59,29,.35)}
+h1 .red{color:var(--spray);display:block;filter:drop-shadow(0 0 18px rgba(255,59,29,.5))}
+.kicker{font-family:"Share Tech Mono";font-size:14px;color:var(--dim);margin-top:16px;max-width:540px;line-height:1.6;letter-spacing:.02em}
+.cc-prize{margin-top:24px;display:inline-flex;flex-direction:column;border:3px solid var(--spray2);padding:12px 24px;transform:rotate(-1deg);background:rgba(194,255,31,.06)}
+.cc-prize-amt{font-family:"Black Ops One";font-size:clamp(32px,8vw,54px);line-height:.9;color:var(--spray2)}
+.cc-prize-lbl{font-family:"Share Tech Mono";text-transform:uppercase;font-size:10px;letter-spacing:.14em;color:var(--dim)}
+main{max-width:920px;margin:0 auto;padding:30px 16px 60px}
+.cc-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.cc-chip{font-family:"Share Tech Mono";font-size:12px;border:1px solid #3a3a36;padding:7px 12px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.cc-chip b{color:var(--spray2)}
+.cc-chip-champ{border-color:var(--spray)}.cc-chip-champ b{color:var(--spray)}
+.cc-board{list-style:none}
+.cc-row{display:grid;grid-template-columns:50px 40px 1fr auto 72px;align-items:center;gap:12px;background:var(--concrete);border-left:5px solid #333;padding:14px 16px;margin-bottom:8px}
+.cc-row[data-top]{border-left-color:var(--spray2)}
+.cc-row[data-top="1"]{border-left-color:var(--spray);background:#1c1411;position:relative}
+.cc-row[data-top="1"]::after{content:"WANTED";position:absolute;top:-10px;right:12px;background:var(--spray);color:#000;font-family:"Black Ops One";font-size:10px;letter-spacing:.1em;padding:2px 8px;transform:rotate(2deg)}
+.cc-rank{font-family:"Black Ops One";font-size:26px;text-align:center}
+.cc-flag{font-size:24px;text-align:center}
+.cc-name{font-weight:800;font-size:21px;text-transform:uppercase;display:block;line-height:1;letter-spacing:.01em}
+.cc-champ{font-family:"Share Tech Mono";font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em}
+.cc-bd{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.cc-badge{font-family:"Share Tech Mono";font-size:11px;padding:3px 7px;border:1px solid #3a3a36;color:var(--dim)}
+.cc-badge i{font-style:normal;opacity:.6;margin-right:3px}
+.cc-badge[data-on="true"]{background:var(--spray2);color:#000;border-color:var(--spray2)}
+.cc-total{font-family:"Black Ops One";font-size:28px;text-align:right;color:var(--spray2)}
+.cc-row[data-top="1"] .cc-total{color:var(--spray)}
+.waiting{margin-top:30px;border-top:2px dashed #333;padding-top:18px}
+.waiting h2{font-family:"Black Ops One";text-transform:uppercase;font-size:20px;margin-bottom:12px;color:var(--spray)}
+.cc-waiting{display:flex;flex-wrap:wrap;gap:8px}
+.cc-wait{font-family:"Share Tech Mono";font-size:12px;border:1px dashed #444;color:var(--dim);padding:5px 11px;text-transform:uppercase}
+.foot{max-width:920px;margin:0 auto;padding:0 16px 70px;font-family:"Share Tech Mono";font-size:11px;color:#555;line-height:1.6}
+@media(max-width:620px){.cc-row{grid-template-columns:40px 1fr 64px;grid-template-areas:"r n t" "r b b";gap:8px}.cc-rank{grid-area:r}.cc-flag{display:none}.cc-id{grid-area:n}.cc-bd{grid-area:b;justify-content:flex-start;margin-top:8px}.cc-total{grid-area:t}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+  <span class="tag">// no gods · no sponsors · no VAR</span>
+  <h1>FUCK<span class="red">FIFA</span></h1>
+  <p class="kicker">Channtasy Cup. Sprayed on the wall by the people, for the people. No marks, no masters, no rights holders.</p>
+  <div class="cc-prize" id="cc-prize"></div>
+</div></header>
+<main>
+  <div class="cc-meta" id="cc-meta"></div>
+  <ol class="cc-board" id="cc-board"></ol>
+  <section class="waiting"><h2>Off the grid</h2><div class="cc-waiting" id="cc-waiting"></div></section>
+</main>
+<footer class="foot">Parody. Generic countries, no sponsors, sells nothing. We are not a Rights Holder.</footer>
+<script src="preview.js"></script>
+</body>
+</html>
