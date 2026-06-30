@@ -142,9 +142,9 @@
     {
       "fifaUsername": "iamphilco", "realName": "Philco", "displayName": "iamphilco", "paid": false,
       "hasBracket": true, "source": "manual",
-      "r16": ["PAR","FRA","CAN","MAR","CRO","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
+      "r16": ["GER","FRA","CAN","MAR","CRO","ESP","USA","BEL","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
       "qf": ["FRA","MAR","ESP","USA","BRA","ENG","ARG","COL"],
-      "sf": ["FRA","USA","BRA","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
+      "sf": ["FRA","ESP","ENG","ARG"], "final": ["FRA","ARG"], "champion": "ARG"
     },
     { "fifaUsername": null, "realName": "Phil Plank", "displayName": "Phil Plank", "hasBracket": false, "note": "FIFA username unknown — confirm" },
     { "fifaUsername": "Saka Rice Krispies", "realName": "Ravi", "displayName": "Saka Rice Krispies", "hasBracket": false, "note": "Username likely 'Saka Rice Krispies' — commissioner to confirm" },
