@@ -148,46 +148,83 @@ function ensureModal() {
   return m;
 }
 
+/* Reconstruct the full per-match bracket tree from a participant's round picks
+ * + the fixed topology. Each match = its two teams and the one they advanced. */
+function buildTree(p, bracket) {
+  const pickByMatch = {};
+  const tree = {};
+  tree.r32 = bracket.rounds.r32.map((m) => {
+    const pick = m.teams.find((t) => (p.r16 || []).includes(t)) || null;
+    pickByMatch[m.id] = pick;
+    return { teams: [...m.teams], pick };
+  });
+  const winnerList = { r16: "qf", qf: "sf", sf: "final", final: null };
+  for (const round of ["r16", "qf", "sf", "final"]) {
+    tree[round] = bracket.rounds[round].map((m) => {
+      const teams = m.feeds.map((f) => pickByMatch[f] || null);
+      let pick = null;
+      if (round === "final") pick = p.champion || null;
+      else {
+        const wl = p[winnerList[round]] || [];
+        pick = teams.find((t) => t && wl.includes(t)) || null;
+      }
+      pickByMatch[m.id] = pick;
+      return { teams, pick };
+    });
+  }
+  return tree;
+}
+
+/* Round a pick belongs to once it WINS that match (used for correctness colour). */
+const WIN_REACH = { r32: "r16", r16: "qf", qf: "sf", sf: "final", final: "champion" };
+const ROUND_LABEL = { r32: "R32", r16: "R16", qf: "QF", sf: "SF", final: "Final" };
+
+function teamCell(code, bracket, isPick, state) {
+  const team = bracket.teams[code] || { flag: "🏳️", name: code || "TBD" };
+  const cls = "bk-team" + (isPick ? " pick " + state : " drop");
+  return '<div class="' + cls + '" title="' + team.name + '">' +
+    '<span class="bk-fl">' + (code ? team.flag : "·") + "</span>" +
+    '<span class="bk-code">' + (code || "—") + "</span></div>";
+}
+
 /* Build the bracket detail view for one participant. */
 function openDetail(r, bracket, scoring, actuals, eliminated) {
   lastFocus = document.activeElement;
   const m = ensureModal();
   const p = r.picks;
   const champTeam = bracket.teams[p.champion];
-
   const rankTxt = r.rank <= 3 ? MEDALS[r.rank - 1] : "#" + r.rank;
-  const labels = {};
-  scoring.rounds.forEach((rd) => (labels[rd.id] = rd.label.replace(/^Reached /, "")));
-
-  const detailRounds = [
-    { id: "champion", label: "Champion", teams: p.champion ? [p.champion] : [], pts: r.perRound.champion.pts },
-    { id: "final", label: labels.final || "Final", teams: p.final || [], pts: r.perRound.final.pts },
-    { id: "sf", label: labels.sf || "Semi-Finals", teams: p.sf || [], pts: r.perRound.sf.pts },
-    { id: "qf", label: labels.qf || "Quarter-Finals", teams: p.qf || [], pts: r.perRound.qf.pts },
-    { id: "r16", label: labels.r16 || "Round of 16", teams: p.r16 || [], pts: r.perRound.r16.pts },
-  ];
+  const tree = buildTree(p, bracket);
 
   let html =
     '<div class="modal-head"><div class="modal-rank">' + rankTxt + "</div><div>" +
     '<h3 id="modal-title">' + p.displayName + "</h3>" +
     '<div class="modal-sub"><strong>' + r.total + " pts</strong> · Champion pick: " +
     (champTeam ? champTeam.flag + " " + champTeam.name : "—") + "</div></div></div>" +
-    '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>';
+    '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>' +
+    '<div class="bk-scroll"><div class="bk">';
 
-  for (const rd of detailRounds) {
-    html += '<section class="dr"><div class="dr-head"><span>' + rd.label +
-      '</span><span class="dr-pts">' + rd.pts + " pts</span></div><div class=\"chips\">";
-    if (!rd.teams.length) {
-      html += '<span class="chip2 pend">—</span>';
-    } else {
-      for (const t of rd.teams) {
-        const team = bracket.teams[t] || { flag: "🏳️", name: t };
-        const st = teamState(t, rd.id, actuals, eliminated);
-        html += '<span class="chip2 ' + st + '" title="' + team.name + '">' + team.flag + " " + t + "</span>";
-      }
+  const order = ["r32", "r16", "qf", "sf", "final"];
+  for (const round of order) {
+    html += '<div class="bk-col"><div class="bk-rlabel">' + ROUND_LABEL[round] + "</div>";
+    for (const match of tree[round]) {
+      html += '<div class="bk-match">';
+      match.teams.forEach((code) => {
+        const isPick = code && code === match.pick;
+        const state = isPick ? teamState(code, WIN_REACH[round], actuals, eliminated) : "";
+        html += teamCell(code, bracket, isPick, state);
+      });
+      html += "</div>";
     }
-    html += "</div></section>";
+    html += "</div>";
   }
+
+  // champion column
+  const champState = p.champion ? teamState(p.champion, "champion", actuals, eliminated) : "";
+  html += '<div class="bk-col bk-champ-col"><div class="bk-rlabel">🏆</div><div class="bk-match bk-champ">' +
+    teamCell(p.champion, bracket, !!p.champion, champState) + "</div></div>";
+
+  html += "</div></div>";
 
   m.querySelector(".modal-content").innerHTML = html;
   m.hidden = false;
