@@ -412,6 +412,7 @@ function renderPending(pending) {
 const ADS = [
   { src: "assets/phillbull-ad.jpg", alt: "PhillBull — Official Energy Drink of Last Minute Edits" },
   { src: "assets/phoong-law-ad.jpg", alt: "Bracket wrong? Call Ann Phoong — Phoong Law, 800-005-0005" },
+  { src: "assets/ozo-theory-ad.jpg", alt: "A Beautiful Mind's Game: Ozo's Theory of Everything You Already Knew" },
 ];
 
 /* Rotate through ADS across successive shows (persisted so it advances even
