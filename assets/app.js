@@ -415,56 +415,68 @@ const ADS = [
   { src: "assets/ozo-theory-ad.jpg", alt: "A Beautiful Mind's Game: Ozo's Theory of Everything You Already Knew" },
 ];
 
-/* Rotate through ADS across successive shows (persisted so it advances even
-   across page loads). Falls back to random if storage is unavailable. */
-function nextAd() {
-  if (ADS.length <= 1) return ADS[0];
-  try {
-    const key = "cc_ad_rot";
-    const i = (parseInt(localStorage.getItem(key) || "0", 10) || 0) % ADS.length;
-    localStorage.setItem(key, String((i + 1) % ADS.length));
-    return ADS[i];
-  } catch (e) {
-    return ADS[Math.floor(Math.random() * ADS.length)];
-  }
-}
-
-/* Ad overlay. Dismiss via the × button, clicking the backdrop, or Escape.
-   Pass a specific ad, or omit to rotate to the next one. */
-function showAd(ad) {
+/* Ad overlay. Opens on the given creative (index) and lets you page through the
+   whole collection with the ‹ › arrows, wrapping around at both ends.
+   Dismiss via the × button, clicking the backdrop, or Escape. */
+function showAd(startIndex) {
   if (document.querySelector(".ad-overlay")) return; // already open
-  ad = ad || nextAd();
-  if (!ad) return;
+  if (!ADS.length) return;
+  let i = ((startIndex || 0) % ADS.length + ADS.length) % ADS.length;
 
   const ov = el("div", "ad-overlay");
+  const multi = ADS.length > 1;
   ov.innerHTML =
     '<div class="ad-card" role="dialog" aria-label="Advertisement">' +
-      '<span class="ad-flag">Advertisement</span>' +
+      '<span class="ad-flag">Ad</span>' +
       '<button class="ad-close" aria-label="Close ad">&times;</button>' +
-      '<img class="ad-img" src="' + ad.src + '" alt="' + escHtml(ad.alt || "") + '">' +
+      '<img class="ad-img" src="" alt="">' +
+      (multi
+        ? '<button class="ad-nav ad-prev" aria-label="Previous ad">&#8249;</button>' +
+          '<button class="ad-nav ad-next" aria-label="Next ad">&#8250;</button>'
+        : "") +
     "</div>";
+
+  const img = ov.querySelector(".ad-img");
+  function render() {
+    const ad = ADS[i];
+    img.src = ad.src;
+    img.alt = ad.alt || "";
+  }
+  function go(delta) {
+    i = (i + delta % ADS.length + ADS.length) % ADS.length;
+    render();
+  }
+  render();
 
   function close() {
     ov.remove();
     document.removeEventListener("keydown", onKey);
     document.body.classList.remove("modal-open");
   }
-  function onKey(e) { if (e.key === "Escape") close(); }
+  function onKey(e) {
+    if (e.key === "Escape") close();
+    else if (multi && e.key === "ArrowLeft") go(-1);
+    else if (multi && e.key === "ArrowRight") go(1);
+  }
 
   ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
   ov.querySelector(".ad-close").addEventListener("click", close);
+  if (multi) {
+    ov.querySelector(".ad-prev").addEventListener("click", () => go(-1));
+    ov.querySelector(".ad-next").addEventListener("click", () => go(1));
+  }
   document.addEventListener("keydown", onKey);
 
   document.body.appendChild(ov);
   document.body.classList.add("modal-open");
 }
 
-/* Auto-show gate: ~50% of page loads. ?ad=1 forces the rotation; ?ad=N forces
-   a specific creative (1-based) for previewing. */
+/* Always show an ad on load, starting on a random creative. ?ad=N forces a
+   specific creative (1-based) for previewing. */
 function initAd() {
   const m = location.search.match(/[?&]ad=(\d+)/);
-  if (m) { showAd(ADS[parseInt(m[1], 10) - 1] || undefined); return; }
-  if (Math.random() < 0.5) showAd();
+  if (m) { showAd(parseInt(m[1], 10) - 1); return; }
+  showAd(Math.floor(Math.random() * ADS.length));
 }
 
 async function main() {
