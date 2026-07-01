@@ -407,6 +407,36 @@ function renderPending(pending) {
   });
 }
 
+/* PhillBull ad overlay. Shows on ~1 in 4 page loads (force with ?ad=1).
+   Dismiss via the × button, clicking the backdrop, or Escape. */
+function initAd() {
+  const force = /[?&]ad=1\b/.test(location.search);
+  if (!force && Math.random() >= 0.25) return;
+
+  const ov = el("div", "ad-overlay");
+  ov.innerHTML =
+    '<div class="ad-card" role="dialog" aria-label="Advertisement">' +
+      '<span class="ad-flag">Advertisement</span>' +
+      '<button class="ad-close" aria-label="Close ad">&times;</button>' +
+      '<img class="ad-img" src="assets/phillbull-ad.jpg" ' +
+        'alt="PhillBull — Official Energy Drink of Last Minute Edits">' +
+    "</div>";
+
+  function close() {
+    ov.remove();
+    document.removeEventListener("keydown", onKey);
+    document.body.classList.remove("modal-open");
+  }
+  function onKey(e) { if (e.key === "Escape") close(); }
+
+  ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
+  ov.querySelector(".ad-close").addEventListener("click", close);
+  document.addEventListener("keydown", onKey);
+
+  document.body.appendChild(ov);
+  document.body.classList.add("modal-open");
+}
+
 async function main() {
   try {
     const [bracket, scoring, results, picks] = await Promise.all([
@@ -441,6 +471,7 @@ async function main() {
     }
 
     initTooltip();
+    initAd();
     renderStatus(bracket, results, actuals);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
     renderPending(pending);
