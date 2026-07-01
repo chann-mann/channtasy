@@ -334,6 +334,7 @@ function openDetail(r, bracket, scoring, actuals, eliminated) {
     (taintInfo(p.displayName).tainted
       ? '<div class="taint-banner">⚠ ' + TAINT_TIP + "</div>"
       : "") +
+    (p.banner ? '<div class="hack-banner">' + escHtml(p.banner) + "</div>" : "") +
     '<div class="legend"><span class="lg hit">Correct</span><span class="lg miss">Knocked out</span><span class="lg pend">Undecided</span></div>' +
     '<div class="bk-scroll">' +
       '<div class="bk-labels"><span>R32</span><span>R16</span><span>QF</span><span>SF</span><span>Final</span><span>🏆</span></div>' +
@@ -365,7 +366,7 @@ function renderRows(rows, bracket, scoring, onSelect) {
 
     const champTeam = bracket.teams[r.champion];
     const who = el("div", "who");
-    who.appendChild(el("div", "champ-flag", champTeam ? champTeam.flag : "🎲"));
+    who.appendChild(el("div", "champ-flag", champTeam ? champTeam.flag : "—"));
     const nameBlock = el("div", "name-block");
     nameBlock.appendChild(el("div", "name", fmtName(r.displayName)));
     nameBlock.appendChild(
@@ -502,7 +503,7 @@ async function main() {
 
     // prize pool: $perPerson for every person in the group, incl. those without brackets
     const perPerson = picks.prizePerPerson || 0;
-    const players = picks.participants.length;
+    const players = picks.participants.filter((p) => !p.fake).length;
     if (perPerson > 0) {
       const banner = document.getElementById("prize-banner");
       banner.hidden = false;

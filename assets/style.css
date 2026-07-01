@@ -364,7 +364,7 @@ body.modal-open { overflow: hidden; }
 }
 /* tainted-record banner inside the bracket popup */
 .taint-banner {
-  margin: 10px 0 0;
+  margin: 10px 0 14px;
   padding: 9px 12px;
   border-radius: 8px;
   background: linear-gradient(180deg, rgba(255, 45, 45, 0.16), rgba(255, 45, 45, 0.08));
@@ -374,6 +374,20 @@ body.modal-open { overflow: hidden; }
   font-weight: 700;
   letter-spacing: 0.2px;
   text-shadow: 0 0 8px rgba(255, 45, 45, 0.4);
+}
+/* terminal-style breach banner for planted "hacker" entries */
+.hack-banner {
+  margin: 10px 0 14px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(46, 160, 100, 0.12), rgba(46, 160, 100, 0.05));
+  border: 1px solid rgba(78, 170, 123, 0.45);
+  color: #6FA98C;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  text-shadow: 0 0 6px rgba(78, 170, 123, 0.22);
 }
 
 /* floating tooltip — fixed-positioned in <body>, so no overflow:hidden

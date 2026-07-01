@@ -4,6 +4,13 @@
   "prizePerPerson": 50,
   "participants": [
     {
+      "fifaUsername": "FIFAntifa", "realName": "?????", "displayName": "FIFAntifa",
+      "hasBracket": true, "source": "pdf", "fake": true,
+      "banner": "⚠ This entry bypassed authentication. The commissioner has been notified… or has he?",
+      "r16": ["PAR","FRA","CAN","MAR","","","","BEL","BRA","NOR","MEX","ENG","","","",""],
+      "qf": [], "sf": [], "final": [], "champion": ""
+    },
+    {
       "fifaUsername": "channmann", "realName": "Michael (commissioner)", "displayName": "channmann",
       "hasBracket": true, "source": "pdf",
       "r16": ["GER","FRA","CAN","NED","POR","ESP","USA","SEN","BRA","NOR","MEX","ENG","ARG","EGY","SUI","COL"],
