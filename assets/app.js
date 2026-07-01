@@ -407,19 +407,40 @@ function renderPending(pending) {
   });
 }
 
-/* PhillBull ad overlay. Shows on ~1 in 4 page loads (force with ?ad=1).
-   Dismiss via the × button, clicking the backdrop, or Escape. */
-function initAd() {
-  const force = /[?&]ad=1\b/.test(location.search);
-  if (!force && Math.random() >= 0.25) return;
+/* Ad creatives. Add a new one by dropping the image in assets/ and appending
+   an entry here — rotation and everything else picks it up automatically. */
+const ADS = [
+  { src: "assets/phillbull-ad.jpg", alt: "PhillBull — Official Energy Drink of Last Minute Edits" },
+  { src: "assets/phoong-law-ad.jpg", alt: "Bracket wrong? Call Ann Phoong — Phoong Law, 800-005-0005" },
+];
+
+/* Rotate through ADS across successive shows (persisted so it advances even
+   across page loads). Falls back to random if storage is unavailable. */
+function nextAd() {
+  if (ADS.length <= 1) return ADS[0];
+  try {
+    const key = "cc_ad_rot";
+    const i = (parseInt(localStorage.getItem(key) || "0", 10) || 0) % ADS.length;
+    localStorage.setItem(key, String((i + 1) % ADS.length));
+    return ADS[i];
+  } catch (e) {
+    return ADS[Math.floor(Math.random() * ADS.length)];
+  }
+}
+
+/* Ad overlay. Dismiss via the × button, clicking the backdrop, or Escape.
+   Pass a specific ad, or omit to rotate to the next one. */
+function showAd(ad) {
+  if (document.querySelector(".ad-overlay")) return; // already open
+  ad = ad || nextAd();
+  if (!ad) return;
 
   const ov = el("div", "ad-overlay");
   ov.innerHTML =
     '<div class="ad-card" role="dialog" aria-label="Advertisement">' +
       '<span class="ad-flag">Advertisement</span>' +
       '<button class="ad-close" aria-label="Close ad">&times;</button>' +
-      '<img class="ad-img" src="assets/phillbull-ad.jpg" ' +
-        'alt="PhillBull — Official Energy Drink of Last Minute Edits">' +
+      '<img class="ad-img" src="' + ad.src + '" alt="' + escHtml(ad.alt || "") + '">' +
     "</div>";
 
   function close() {
@@ -435,6 +456,14 @@ function initAd() {
 
   document.body.appendChild(ov);
   document.body.classList.add("modal-open");
+}
+
+/* Auto-show gate: ~50% of page loads. ?ad=1 forces the rotation; ?ad=N forces
+   a specific creative (1-based) for previewing. */
+function initAd() {
+  const m = location.search.match(/[?&]ad=(\d+)/);
+  if (m) { showAd(ADS[parseInt(m[1], 10) - 1] || undefined); return; }
+  if (Math.random() < 0.5) showAd();
 }
 
 async function main() {
@@ -472,6 +501,8 @@ async function main() {
 
     initTooltip();
     initAd();
+    const adBtn = document.getElementById("ad-trigger");
+    if (adBtn) adBtn.addEventListener("click", showAd);
     renderStatus(bracket, results, actuals);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
     renderPending(pending);
