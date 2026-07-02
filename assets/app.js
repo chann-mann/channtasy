@@ -222,6 +222,104 @@ function renderStatus(bracket, results, actuals) {
   }
 }
 
+/* ---- Next match: who backed each side ---- */
+const MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+const ROUND_ORDER = { r32: 0, r16: 1, qf: 2, sf: 3, final: 4 };
+
+// Parse bracket date strings like "2 Jul, 16:00" or "4 Jul" (year assumed 2026).
+function parseMatchDate(s) {
+  const m = String(s || "").match(/(\d{1,2})\s+([A-Za-z]{3})(?:,\s*(\d{1,2}):(\d{2}))?/);
+  if (!m) return null;
+  const mon = MONTHS[m[2].toLowerCase()];
+  if (mon == null) return null;
+  return new Date(2026, mon, +m[1], m[3] ? +m[3] : 12, m[4] ? +m[4] : 0);
+}
+
+// The next playable match: earliest undecided fixture whose both teams are known.
+function findNextMatch(bracket, results) {
+  const wins = results.matchResults || {};
+  const cands = [];
+  for (const round of ["r32", "r16", "qf", "sf", "final"]) {
+    bracket.rounds[round].forEach((m, idx) => {
+      if (wins[m.id]) return; // already decided
+      const teams = round === "r32" ? [...m.teams] : m.feeds.map((f) => wins[f]);
+      if (teams.length === 2 && teams[0] && teams[1]) {
+        cands.push({ id: m.id, round, idx, teams, date: m.date, dt: parseMatchDate(m.date) });
+      }
+    });
+  }
+  if (!cands.length) return null;
+  cands.sort((a, b) =>
+    (a.dt && b.dt ? a.dt - b.dt : 0) ||
+    ROUND_ORDER[a.round] - ROUND_ORDER[b.round] ||
+    a.idx - b.idx
+  );
+  return cands[0];
+}
+
+// Bucket participants by which of the match's two teams they picked to win it.
+function nextMatchPicks(nm, withBracket) {
+  const [A, B] = nm.teams;
+  const key = WIN_REACH[nm.round]; // r16/qf/sf/final -> pick array; final -> "champion"
+  const forA = [], forB = [], other = [];
+  for (const p of withBracket) {
+    let choseA, choseB;
+    if (nm.round === "final") { choseA = p.champion === A; choseB = p.champion === B; }
+    else { const arr = p[key] || []; choseA = arr.includes(A); choseB = arr.includes(B); }
+    if (choseA) forA.push(p.displayName);
+    else if (choseB) forB.push(p.displayName);
+    else other.push(p.displayName);
+  }
+  const byName = (x, y) => nameSortKey(x).localeCompare(nameSortKey(y)) || x.localeCompare(y);
+  return { forA: forA.sort(byName), forB: forB.sort(byName), other: other.sort(byName) };
+}
+
+function renderNextMatch(bracket, results, withBracket) {
+  const section = document.getElementById("next-match");
+  if (!section) return;
+  const nm = findNextMatch(bracket, results);
+  if (!nm) { section.hidden = true; return; }
+
+  const [A, B] = nm.teams;
+  const ta = bracket.teams[A] || { flag: "🏳️", name: A };
+  const tb = bracket.teams[B] || { flag: "🏳️", name: B };
+  const { forA, forB, other } = nextMatchPicks(nm, withBracket);
+  const dateLbl = nm.date ? " · " + escHtml(nm.date) : "";
+
+  const side = (team, names) =>
+    '<div class="nm-side">' +
+      '<div class="nm-team">' +
+        '<span class="nm-flag">' + team.flag + "</span>" +
+        '<span class="nm-name">' + escHtml(team.name) + "</span>" +
+        '<span class="nm-count">' + names.length + "</span>" +
+      "</div>" +
+      (names.length
+        ? '<div class="nm-list nm-clamp">' + names.map((n) => fmtName(n)).join(", ") + "</div>" +
+          '<button class="nm-toggle" type="button" hidden>Show all</button>'
+        : '<p class="nm-empty">No backers</p>') +
+    "</div>";
+
+  section.innerHTML =
+    '<div class="nm-eyebrow">Next up · ' + (ROUND_LABEL[nm.round] || nm.round) + dateLbl + "</div>" +
+    '<div class="nm-grid">' + side(ta, forA) + '<div class="nm-vs">vs</div>' + side(tb, forB) + "</div>" +
+    (other.length ? '<div class="nm-other">' + other.length + " had a different path to here</div>" : "");
+  section.hidden = false;
+
+  // Show a toggle only where the clamped (2-line) list actually overflows.
+  section.querySelectorAll(".nm-side").forEach((sideEl) => {
+    const list = sideEl.querySelector(".nm-list");
+    const btn = sideEl.querySelector(".nm-toggle");
+    if (!list || !btn) return;
+    if (list.scrollHeight - list.clientHeight > 2) {
+      btn.hidden = false;
+      btn.addEventListener("click", () => {
+        const clamped = list.classList.toggle("nm-clamp");
+        btn.textContent = clamped ? "Show all" : "Show less";
+      });
+    }
+  });
+}
+
 let lastFocus = null;
 
 function ensureModal() {
@@ -518,6 +616,7 @@ async function main() {
     const adBtn = document.getElementById("ad-trigger");
     if (adBtn) adBtn.addEventListener("click", showAd);
     renderStatus(bracket, results, actuals);
+    renderNextMatch(bracket, results, withBracket);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
     renderPending(pending);
 
