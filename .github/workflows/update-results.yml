@@ -1,0 +1,46 @@
+name: Update results
+
+# Pulls finished FIFA World Cup 2026 knockout results from FIFA's data API once
+# an hour and commits any changes to data/results.json. The commit pushes to
+# main, which triggers the GitHub Pages rebuild — so the leaderboard updates
+# itself. Manual entries are never overwritten (the fetcher runs without --force).
+
+on:
+  schedule:
+    - cron: "0 * * * *" # top of every hour (UTC; GitHub may delay under load)
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+# Avoid overlapping runs stepping on each other's commit.
+concurrency:
+  group: update-results
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch latest results
+        run: node scripts/fetch-results.mjs --write
+
+      - name: Commit & push if changed
+        run: |
+          if git diff --quiet -- data/results.json; then
+            echo "No result changes."
+            exit 0
+          fi
+          git config user.name "channtasy-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/results.json
+          git commit -m "Auto-update results from FIFA API"
+          git push
