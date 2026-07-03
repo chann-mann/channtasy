@@ -613,8 +613,6 @@ async function main() {
 
     initTooltip();
     initAd();
-    const adBtn = document.getElementById("ad-trigger");
-    if (adBtn) adBtn.addEventListener("click", showAd);
     renderStatus(bracket, results, actuals);
     renderNextMatch(bracket, results, withBracket);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
