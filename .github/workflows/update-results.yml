@@ -1,13 +1,15 @@
 name: Update results
 
-# Pulls finished FIFA World Cup 2026 knockout results from FIFA's data API once
-# an hour and commits any changes to data/results.json. The commit pushes to
+# Pulls finished FIFA World Cup 2026 knockout results from FIFA's data API every
+# 15 minutes and commits any changes to data/results.json. The commit pushes to
 # main, which triggers the GitHub Pages rebuild — so the leaderboard updates
-# itself. Manual entries are never overwritten (the fetcher runs without --force).
+# itself. It only commits/deploys when a result actually changes (see the diff
+# check below), so a tighter schedule adds no extra deploys. Manual entries are
+# never overwritten (the fetcher runs without --force).
 
 on:
   schedule:
-    - cron: "0 * * * *" # top of every hour (UTC; GitHub may delay under load)
+    - cron: "*/15 * * * *" # every 15 min (UTC; GitHub may delay/coalesce under load)
   workflow_dispatch: {} # allow manual runs from the Actions tab
 
 # Avoid overlapping runs stepping on each other's commit.
