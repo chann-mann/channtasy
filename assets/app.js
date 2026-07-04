@@ -227,6 +227,7 @@ const MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7,
 const ROUND_ORDER = { r32: 0, r16: 1, qf: 2, sf: 3, final: 4 };
 
 // Parse bracket date strings like "2 Jul, 16:00" or "4 Jul" (year assumed 2026).
+// Fallback only — precise kickoff times come from results.kickoffs (UTC ISO).
 function parseMatchDate(s) {
   const m = String(s || "").match(/(\d{1,2})\s+([A-Za-z]{3})(?:,\s*(\d{1,2}):(\d{2}))?/);
   if (!m) return null;
@@ -235,16 +236,33 @@ function parseMatchDate(s) {
   return new Date(2026, mon, +m[1], m[3] ? +m[3] : 12, m[4] ? +m[4] : 0);
 }
 
+// Format a UTC ISO kickoff in the VIEWER's local time zone,
+// e.g. "Sat, Jul 4, 10:00 AM PDT".
+function fmtKickoff(iso) {
+  try {
+    return new Date(iso).toLocaleString(undefined, {
+      weekday: "short", month: "short", day: "numeric",
+      hour: "numeric", minute: "2-digit", timeZoneName: "short",
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
 // The next playable match: earliest undecided fixture whose both teams are known.
+// Ordered by real kickoff time (results.kickoffs, UTC) when available.
 function findNextMatch(bracket, results) {
   const wins = results.matchResults || {};
+  const kicks = results.kickoffs || {};
   const cands = [];
   for (const round of ["r32", "r16", "qf", "sf", "final"]) {
     bracket.rounds[round].forEach((m, idx) => {
       if (wins[m.id]) return; // already decided
       const teams = round === "r32" ? [...m.teams] : m.feeds.map((f) => wins[f]);
       if (teams.length === 2 && teams[0] && teams[1]) {
-        cands.push({ id: m.id, round, idx, teams, date: m.date, dt: parseMatchDate(m.date) });
+        const kickoff = kicks[m.id] || null;
+        const dt = kickoff ? new Date(kickoff) : parseMatchDate(m.date);
+        cands.push({ id: m.id, round, idx, teams, date: m.date, kickoff, dt });
       }
     });
   }
@@ -257,21 +275,25 @@ function findNextMatch(bracket, results) {
   return cands[0];
 }
 
-// Bucket participants by which of the match's two teams they picked to win it.
-function nextMatchPicks(nm, withBracket) {
+// Bucket participants by which of the match's two teams their bracket has winning
+// it. Anyone whose predicted winner for this slot is neither actual team (their
+// pick got knocked out earlier) lands in `other`, tagged with that dead pick.
+function nextMatchPicks(nm, withBracket, bracket) {
   const [A, B] = nm.teams;
-  const key = WIN_REACH[nm.round]; // r16/qf/sf/final -> pick array; final -> "champion"
   const forA = [], forB = [], other = [];
   for (const p of withBracket) {
-    let choseA, choseB;
-    if (nm.round === "final") { choseA = p.champion === A; choseB = p.champion === B; }
-    else { const arr = p[key] || []; choseA = arr.includes(A); choseB = arr.includes(B); }
-    if (choseA) forA.push(p.displayName);
-    else if (choseB) forB.push(p.displayName);
-    else other.push(p.displayName);
+    const tree = buildTree(p, bracket);
+    const pred = (tree[nm.round][nm.idx] || {}).pick || null;
+    if (pred === A) forA.push(p.displayName);
+    else if (pred === B) forB.push(p.displayName);
+    else other.push({ name: p.displayName, dead: pred });
   }
   const byName = (x, y) => nameSortKey(x).localeCompare(nameSortKey(y)) || x.localeCompare(y);
-  return { forA: forA.sort(byName), forB: forB.sort(byName), other: other.sort(byName) };
+  return {
+    forA: forA.sort(byName),
+    forB: forB.sort(byName),
+    other: other.sort((x, y) => byName(x.name, y.name)),
+  };
 }
 
 function renderNextMatch(bracket, results, withBracket) {
@@ -283,8 +305,9 @@ function renderNextMatch(bracket, results, withBracket) {
   const [A, B] = nm.teams;
   const ta = bracket.teams[A] || { flag: "🏳️", name: A };
   const tb = bracket.teams[B] || { flag: "🏳️", name: B };
-  const { forA, forB, other } = nextMatchPicks(nm, withBracket);
-  const dateLbl = nm.date ? " · " + escHtml(nm.date) : "";
+  const { forA, forB, other } = nextMatchPicks(nm, withBracket, bracket);
+  const when = (nm.kickoff && fmtKickoff(nm.kickoff)) || nm.date || "";
+  const dateLbl = when ? " · " + escHtml(when) : "";
 
   const side = (team, names) =>
     '<div class="nm-side">' +
@@ -299,10 +322,17 @@ function renderNextMatch(bracket, results, withBracket) {
         : '<p class="nm-empty">No backers</p>') +
     "</div>";
 
+  const outPills = other.map((o) => {
+    const dead = bracket.teams[o.dead];
+    const tip = dead ? "Backed " + dead.name + " — knocked out" : "Backed a team that's out";
+    return '<span class="nm-out-pill" tabindex="0" data-tip="' + escHtml(tip) + '">' +
+      fmtName(o.name) + "</span>";
+  }).join("");
+
   section.innerHTML =
     '<div class="nm-eyebrow">Next up · ' + (ROUND_LABEL[nm.round] || nm.round) + dateLbl + "</div>" +
     '<div class="nm-grid">' + side(ta, forA) + '<div class="nm-vs">vs</div>' + side(tb, forB) + "</div>" +
-    (other.length ? '<div class="nm-other">' + other.length + " had a different path to here</div>" : "");
+    (other.length ? '<div class="nm-out">' + outPills + "</div>" : "");
   section.hidden = false;
 
   // Show a toggle only where the clamped (2-line) list actually overflows.
@@ -570,11 +600,15 @@ function showAd(startIndex) {
   document.body.classList.add("modal-open");
 }
 
-/* Always show an ad on load, starting on a random creative. ?ad=N forces a
-   specific creative (1-based) for previewing. */
+// Ads are paused for now. Flip to false to bring the pop-ups back.
+const ADS_PAUSED = true;
+
+/* Show an ad on load, starting on a random creative — unless paused.
+   ?ad=N always forces a specific creative (1-based) for previewing. */
 function initAd() {
   const m = location.search.match(/[?&]ad=(\d+)/);
   if (m) { showAd(parseInt(m[1], 10) - 1); return; }
+  if (ADS_PAUSED) return;
   showAd(Math.floor(Math.random() * ADS.length));
 }
 

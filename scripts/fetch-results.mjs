@@ -82,22 +82,28 @@ function winnerCode(m) {
   return null; // undecided / not enough info — leave for manual entry
 }
 
-async function fetchFinishedByPair() {
+// One fetch, two maps keyed by team-pairing:
+//   finished: pair -> winner code   (only decided matches)
+//   kickoff:  pair -> UTC ISO time  (any match whose teams are both known)
+async function fetchData() {
   const res = await fetch(API, { headers: { "User-Agent": UA } });
   if (!res.ok) throw new Error(`API ${res.status}`);
   const json = await res.json();
   const events = json.Results || [];
-  const byPair = new Map();
+  const finished = new Map();
+  const kickoff = new Map();
   for (const m of events) {
-    if (m.MatchStatus !== MATCH_STATUS_FINISHED) continue;
     const home = codeOf((m.Home || {}).Abbreviation);
     const away = codeOf((m.Away || {}).Abbreviation);
     if (!home || !away) continue; // placeholder fixtures (TBD teams)
-    const winner = winnerCode(m);
-    if (!winner) continue;
-    byPair.set(pairKey(home, away), { home, away, winner });
+    const key = pairKey(home, away);
+    if (m.Date) kickoff.set(key, new Date(m.Date).toISOString());
+    if (m.MatchStatus === MATCH_STATUS_FINISHED) {
+      const winner = winnerCode(m);
+      if (winner) finished.set(key, { home, away, winner });
+    }
   }
-  return byPair;
+  return { finished, kickoff };
 }
 
 // For each match id, the two team codes that ACTUALLY contest it, using known
@@ -120,14 +126,15 @@ async function main() {
   const results = JSON.parse(readFileSync(join(DATA, "results.json")));
   results.matchResults = results.matchResults || {};
 
-  let byPair;
+  let data;
   try {
-    byPair = await fetchFinishedByPair();
+    data = await fetchData();
   } catch (err) {
     console.error(`Could not reach the FIFA results API (${err.message}).`);
     console.error("Hand-edit data/results.json instead — see the comment at the top of that file.");
     process.exit(1);
   }
+  const byPair = data.finished;
 
   // Resolve iteratively: a newly-decided match can unlock the next round's pairing.
   const proposed = {};
@@ -151,23 +158,41 @@ async function main() {
     ([id, w]) => results.matchResults[id] !== w
   );
 
-  if (!changes.length) {
-    console.log("No new finished knockout results found to apply.");
-    console.log(`(FIFA API returned ${byPair.size} finished, mapped fixtures.)`);
+  // Kickoff times (UTC ISO) for every match whose teams are now known.
+  const merged = { ...results.matchResults, ...Object.fromEntries(changes) };
+  const pairings = actualPairings(bracket, { matchResults: merged });
+  const kickoffs = {};
+  for (const [matchId, teams] of Object.entries(pairings)) {
+    if (teams.length !== 2 || !teams[0] || !teams[1]) continue;
+    const iso = data.kickoff.get(pairKey(teams[0], teams[1]));
+    if (iso) kickoffs[matchId] = iso;
+  }
+  const kickoffsChanged =
+    JSON.stringify(kickoffs) !== JSON.stringify(results.kickoffs || {});
+
+  if (!changes.length && !kickoffsChanged) {
+    console.log("No new results or schedule changes.");
+    console.log(`(FIFA API returned ${byPair.size} finished, ${data.kickoff.size} scheduled fixtures.)`);
     return;
   }
 
-  console.log(WRITE ? "Applying:" : "Would apply (dry run — pass --write to save):");
-  for (const [id, w] of changes) {
-    const was = results.matchResults[id];
-    console.log(`  ${id}: ${was ? was + " -> " : ""}${w}`);
+  if (changes.length) {
+    console.log(WRITE ? "Applying results:" : "Would apply (dry run — pass --write to save):");
+    for (const [id, w] of changes) {
+      const was = results.matchResults[id];
+      console.log(`  ${id}: ${was ? was + " -> " : ""}${w}`);
+    }
+  }
+  if (kickoffsChanged) {
+    console.log(`Kickoff times: ${Object.keys(kickoffs).length} match(es) known.`);
   }
 
   if (WRITE) {
     Object.assign(results.matchResults, proposed);
+    results.kickoffs = kickoffs;
     results.lastUpdated = new Date().toISOString().slice(0, 10);
     writeFileSync(join(DATA, "results.json"), JSON.stringify(results, null, 2) + "\n");
-    console.log(`\nWrote ${changes.length} result(s) to data/results.json.`);
+    console.log(`\nWrote data/results.json (${changes.length} new result(s)).`);
   }
 }
 
