@@ -19,6 +19,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: write # to dispatch the deploy workflow after committing
 
 jobs:
   update:
@@ -46,3 +47,8 @@ jobs:
           git add data/results.json
           git commit -m "Auto-update results from FIFA API"
           git push
+          # A push made with GITHUB_TOKEN does NOT trigger the deploy workflow's
+          # `on: push` (anti-recursion), so kick it explicitly.
+          gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
