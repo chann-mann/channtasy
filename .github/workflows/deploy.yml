@@ -1,0 +1,65 @@
+name: Deploy site to Pages
+
+# Publishes the site to GitHub Pages on every push to main (and on demand).
+# We deploy it ourselves — instead of the built-in "deploy from a branch" — so
+# we can RETRY: Pages occasionally returns a transient "Deployment failed, try
+# again later" that leaves the site stale with no auto-recovery. Here a failed
+# attempt is re-tried up to 3 times with backoff before the job actually fails.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# One Pages deployment at a time; never cancel an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      # ---- Deploy with up to 3 attempts (transient-failure tolerant) ----
+      - name: Deploy (attempt 1)
+        id: deploy1
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Backoff before attempt 2
+        if: steps.deploy1.outcome == 'failure'
+        run: echo "Attempt 1 failed — retrying in 45s"; sleep 45
+
+      - name: Deploy (attempt 2)
+        id: deploy2
+        if: steps.deploy1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Backoff before attempt 3
+        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        run: echo "Attempt 2 failed — retrying in 60s"; sleep 60
+
+      - name: Deploy (attempt 3, final)
+        id: deploy3
+        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
