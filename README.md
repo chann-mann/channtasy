@@ -75,5 +75,3 @@ python3 -m http.server 8000   # then open http://localhost:8000/
 
 Push to GitHub, then Settings → Pages → deploy from `main` / root. To use `channtasycup.com` later,
 add a `CNAME` file containing the domain and point DNS at GitHub Pages.
-
-
