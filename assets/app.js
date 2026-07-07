@@ -542,6 +542,7 @@ const ADS = [
   { src: "assets/phillbull-ad.jpg", alt: "PhillBull — Official Energy Drink of Last Minute Edits" },
   { src: "assets/phoong-law-ad.jpg", alt: "Bracket wrong? Call Ann Phoong — Phoong Law, 800-005-0005" },
   { src: "assets/ozo-theory-ad.jpg", alt: "A Beautiful Mind's Game: Ozo's Theory of Everything You Already Knew" },
+  { src: "assets/jeekalob-ad.jpg", alt: "Jeekalob Ultra — Superior Light Jeeks. Same great jeeks, with less calories. Official Sponsor of the 2026 FIFA World Cup" },
 ];
 
 /* Ad overlay. Opens on the given creative (index) and lets you page through the
@@ -601,7 +602,7 @@ function showAd(startIndex) {
 }
 
 // Ads are paused for now. Flip to false to bring the pop-ups back.
-const ADS_PAUSED = true;
+const ADS_PAUSED = false;
 
 /* Show an ad on load, starting on a random creative — unless paused.
    ?ad=N always forces a specific creative (1-based) for previewing. */
