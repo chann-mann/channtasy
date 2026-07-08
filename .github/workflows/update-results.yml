@@ -36,16 +36,19 @@ jobs:
       - name: Fetch latest results
         run: node scripts/fetch-results.mjs --write
 
+      - name: Recompute eliminations
+        run: node scripts/compute-eliminations.mjs
+
       - name: Commit & push if changed
         run: |
-          if git diff --quiet -- data/results.json; then
-            echo "No result changes."
+          if git diff --quiet -- data/results.json data/eliminations.json; then
+            echo "No changes."
             exit 0
           fi
           git config user.name "channtasy-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/results.json
-          git commit -m "Auto-update results from FIFA API"
+          git add data/results.json data/eliminations.json
+          git commit -m "Auto-update results + eliminations from FIFA API"
           git push
           # A push made with GITHUB_TOKEN does NOT trigger the deploy workflow's
           # `on: push` (anti-recursion), so kick it explicitly.

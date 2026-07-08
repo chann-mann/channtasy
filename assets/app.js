@@ -170,7 +170,9 @@ function initTooltip() {
   }
   function show(target) {
     cur = target;
-    tip.textContent = target.getAttribute("data-tip") || "";
+    const html = target.getAttribute("data-tip-html");
+    if (html != null) tip.innerHTML = html;
+    else tip.textContent = target.getAttribute("data-tip") || "";
     tip.hidden = false;
     place(); // forces reflow so the opacity transition animates from this point
     tip.classList.add("show");
@@ -478,8 +480,14 @@ function openDetail(r, bracket, scoring, actuals, eliminated) {
 function renderRows(rows, bracket, scoring, onSelect) {
   const body = document.getElementById("leaderboard-body");
   body.innerHTML = "";
-  rows.forEach((r) => {
-    const row = el("div", "row");
+  // Split: still-alive up top (re-ranked 1..N), mathematically eliminated at the bottom.
+  const live = rows.filter((r) => !ELIM.byName || !ELIM.byName[r.displayName]);
+  const dead = rows.filter((r) => ELIM.byName && ELIM.byName[r.displayName]);
+  let lt = null, lr = 0;
+  live.forEach((r, i) => { if (r.total !== lt) { lr = i + 1; lt = r.total; } r.liveRank = lr; });
+
+  const buildRow = (r, isDead) => {
+    const row = el("div", "row" + (isDead ? " eliminated" : ""));
     row.tabIndex = 0;
     row.setAttribute("role", "button");
     row.setAttribute("aria-label", `${r.displayName}, ${r.total} points — view bracket`);
@@ -487,10 +495,27 @@ function renderRows(rows, bracket, scoring, onSelect) {
     row.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(r); }
     });
-    if (r.rank <= 3) row.classList.add(`top${r.rank}`);
 
-    const rankTxt = r.rank <= 3 ? MEDALS[r.rank - 1] : r.rank;
-    row.appendChild(el("div", "rank", `${rankTxt}`));
+    if (isDead) {
+      const info = ELIM.byName[r.displayName] || {};
+      const rankCell = el("div", "rank rank-elim");
+      rankCell.innerHTML = '<span class="elim-stamp">OUT</span>';
+      const ic = el("button", "elim-info", "i");
+      ic.type = "button";
+      ic.setAttribute("aria-label", "Why eliminated");
+      const plain = (info.afterLabel ? "Eliminated after " + info.afterLabel + ". " : "") + (info.reason || "");
+      ic.setAttribute("data-tip", plain);
+      ic.setAttribute("data-tip-html",
+        (info.afterLabel ? '<span class="tip-when">Eliminated after ' + decorateReason(info.afterLabel) + "</span>" : "") +
+        decorateReason(info.reason || ""));
+      ic.addEventListener("click", (e) => e.stopPropagation());
+      rankCell.appendChild(ic);
+      row.appendChild(rankCell);
+    } else {
+      if (r.liveRank <= 3) row.classList.add(`top${r.liveRank}`);
+      const rankTxt = r.liveRank <= 3 ? MEDALS[r.liveRank - 1] : r.liveRank;
+      row.appendChild(el("div", "rank", `${rankTxt}`));
+    }
 
     const champTeam = bracket.teams[r.champion];
     const who = el("div", "who");
@@ -518,8 +543,35 @@ function renderRows(rows, bracket, scoring, onSelect) {
     row.appendChild(breakdown);
 
     row.appendChild(el("div", "total", `${r.total}`));
-    body.appendChild(row);
-  });
+    return row;
+  };
+
+  live.forEach((r) => body.appendChild(buildRow(r, false)));
+  if (dead.length) {
+    const sep = el("div", "elim-sep");
+    sep.appendChild(el("span", "elim-sep-title", `Mathematically eliminated · ${dead.length}`));
+    const sel = el("select", "elim-sort");
+    sel.innerHTML =
+      '<option value="score">Sort: current score</option>' +
+      '<option value="earliest">Sort: earliest eliminated</option>';
+    sep.appendChild(sel);
+    body.appendChild(sep);
+
+    const wrap = el("div", "elim-wrap");
+    body.appendChild(wrap);
+    const idx = (r) => (ELIM.byName[r.displayName] || {}).afterIndex ?? 0;
+    const renderDead = (mode) => {
+      wrap.innerHTML = "";
+      const sorted = [...dead].sort((a, b) =>
+        mode === "earliest"
+          ? (idx(a) - idx(b)) || (b.total - a.total)   // earliest eliminated first, tiebreak score
+          : (b.total - a.total)                        // current score
+      );
+      sorted.forEach((r) => wrap.appendChild(buildRow(r, true)));
+    };
+    sel.addEventListener("change", () => renderDead(sel.value));
+    renderDead("score");
+  }
 }
 
 function renderPending(pending) {
@@ -582,6 +634,7 @@ function showAd(startIndex) {
     ov.remove();
     document.removeEventListener("keydown", onKey);
     document.body.classList.remove("modal-open");
+    maybeShowElimReport(); // surface the obituary popup after the ad
   }
   function onKey(e) {
     if (e.key === "Escape") close();
@@ -601,16 +654,66 @@ function showAd(startIndex) {
   document.body.classList.add("modal-open");
 }
 
+/* ---- Elimination report (pops up after the ad) ---- */
+let ELIM = { byName: {}, newlyEliminated: [], latestMatch: null, latestLabel: "" };
+// Lookups for decorating reason text: teams -> flag, participant names -> bold.
+let DECOR = { teams: [], names: [] };
+const reEsc = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function decorateReason(text) {
+  let s = String(text || "");
+  for (const [name, flag] of DECOR.teams) { // longest names first
+    s = s.replace(new RegExp("(^|[^\\w])(" + reEsc(name) + ")(?![\\w])", "g"),
+      (m, pre, nm) => pre + flag + " " + nm);
+  }
+  for (const nm of DECOR.names) {
+    s = s.replace(new RegExp(reEsc(nm), "g"), "<strong>" + nm + "</strong>");
+  }
+  return s;
+}
+
+function showElimReport() {
+  if (!ELIM.newlyEliminated.length || document.querySelector(".elim-overlay")) return;
+  const items = ELIM.newlyEliminated.map((n) => {
+    const info = ELIM.byName[n] || {};
+    return '<li><div class="er-name">☠ ' + fmtName(n) + "</div>" +
+      '<div class="er-why">' + decorateReason(info.reason || "") + "</div></li>";
+  }).join("");
+  const ov = el("div", "elim-overlay");
+  ov.innerHTML =
+    '<div class="elim-card" role="dialog" aria-label="Elimination report">' +
+      '<button class="elim-close" aria-label="Close">&times;</button>' +
+      '<div class="elim-kicker">Bracket Obituaries</div>' +
+      '<div class="elim-title">Eliminated this round</div>' +
+      '<div class="elim-sub">Knocked out of contention after ' +
+        (ELIM.latestNum ? "Match " + ELIM.latestNum + "/" + (ELIM.totalMatches || 31) + " · " : "") +
+        decorateReason(ELIM.latestLabel || "the latest game") + "</div>" +
+      '<ul class="elim-list">' + items + "</ul>" +
+      '<div class="elim-foot">They can no longer finish 1st. Full casualty list is at the bottom of the board — tap the <b>i</b> on anyone to see how they died.</div>' +
+    "</div>";
+  function close() { ov.remove(); document.removeEventListener("keydown", onKey); document.body.classList.remove("modal-open"); }
+  function onKey(e) { if (e.key === "Escape") close(); }
+  ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
+  ov.querySelector(".elim-close").addEventListener("click", close);
+  document.addEventListener("keydown", onKey);
+  document.body.appendChild(ov);
+  document.body.classList.add("modal-open");
+}
+
+// Always show the report for the latest match (no cookie gating).
+function maybeShowElimReport() { showElimReport(); }
+
 // Ads are paused for now. Flip to false to bring the pop-ups back.
 const ADS_PAUSED = false;
 
 /* Show an ad on load, starting on a random creative — unless paused.
    ?ad=N always forces a specific creative (1-based) for previewing. */
 function initAd() {
+  if (/[?&]noad\b/.test(location.search)) return; // clean board, no popups
+  if (/[?&]elim=1\b/.test(location.search)) { maybeShowElimReport(); return; } // report only
   const m = location.search.match(/[?&]ad=(\d+)/);
   if (m) { showAd(parseInt(m[1], 10) - 1); return; }
-  if (ADS_PAUSED) return;
-  showAd(Math.floor(Math.random() * ADS.length));
+  if (!ADS_PAUSED) { showAd(Math.floor(Math.random() * ADS.length)); return; }
+  maybeShowElimReport(); // no ad shown — still surface the report
 }
 
 async function main() {
@@ -621,12 +724,17 @@ async function main() {
       loadJSON("data/results.json"),
       loadJSON("data/picks.json"),
     ]);
+    try { ELIM = await loadJSON("data/eliminations.json"); } catch (e) { /* optional */ }
 
     const actuals = deriveActuals(bracket, results);
     const eliminated = deriveEliminated(bracket, results);
 
     const withBracket = picks.participants.filter((p) => p.hasBracket);
     const pending = picks.participants.filter((p) => !p.hasBracket);
+
+    DECOR.teams = Object.values(bracket.teams)
+      .map((t) => [t.name, t.flag]).sort((a, b) => b[0].length - a[0].length);
+    DECOR.names = withBracket.map((p) => p.displayName).sort((a, b) => b.length - a.length);
 
     const rows = withBracket.map((p) => {
       const { total, perRound } = scoreParticipant(p, scoring, actuals);
