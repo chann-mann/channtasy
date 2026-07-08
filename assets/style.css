@@ -320,7 +320,16 @@ main {
 .row.eliminated { opacity: 0.6; }
 .row.eliminated:hover { opacity: 0.9; }
 .row.eliminated .total { color: var(--ink-dim); }
-.rank-elim { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rank-elim {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  align-self: stretch;            /* fill the full row height */
+  margin: -14px -6px;             /* expand hit area over the row padding */
+  padding: 14px 6px;
+  border-radius: 8px;
+  cursor: help;
+  transition: background 0.12s ease;
+}
+.rank-elim:hover, .rank-elim:focus-visible { background: rgba(255, 255, 255, 0.07); outline: none; }
 .elim-stamp {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
@@ -335,9 +344,10 @@ main {
   background: rgba(255, 255, 255, 0.06);
   color: var(--ink-dim);
   font: italic 700 10px/1 Georgia, serif;
-  cursor: help; display: grid; place-items: center;
+  display: grid; place-items: center;
+  transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
 }
-.elim-info:hover, .elim-info:focus-visible {
+.rank-elim:hover .elim-info, .rank-elim:focus-visible .elim-info {
   color: #ffd7d7; border-color: rgba(255, 45, 45, 0.6); background: rgba(255, 45, 45, 0.15);
 }
 .elim-overlay {

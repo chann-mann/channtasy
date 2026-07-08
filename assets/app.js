@@ -203,22 +203,31 @@ function initTooltip() {
   window.addEventListener("resize", place);
 }
 
+const ROUND_NAME = { r32: "Round of 32", r16: "Round of 16", qf: "Quarterfinals", sf: "Semifinals", final: "Final" };
+
 function renderStatus(bracket, results, actuals) {
   const bar = document.getElementById("status-bar");
-  const r32Total = bracket.rounds.r32.length;
-  const r32Done = bracket.rounds.r32.filter((m) => (results.matchResults || {})[m.id]).length;
-  const totalMatches =
-    r32Total +
-    bracket.rounds.r16.length +
-    bracket.rounds.qf.length +
-    bracket.rounds.sf.length +
-    bracket.rounds.final.length;
-  const done = Object.keys(results.matchResults || {}).length;
+  const wins = results.matchResults || {};
+  const rounds = ["r32", "r16", "qf", "sf", "final"];
+  const totalMatches = rounds.reduce((n, r) => n + bracket.rounds[r].length, 0);
+  const done = Object.keys(wins).length;
   const champ = actuals.champion ? bracket.teams[actuals.champion] : null;
+
+  // Current stage = the earliest round that isn't fully decided yet.
+  let curRound = null;
+  for (const r of rounds) {
+    const total = bracket.rounds[r].length;
+    const d = bracket.rounds[r].filter((m) => wins[m.id]).length;
+    if (d < total) { curRound = { r, d, total }; break; }
+  }
 
   bar.innerHTML = "";
   bar.appendChild(el("span", "chip", `<strong>${done}</strong> / ${totalMatches} matches decided`));
-  bar.appendChild(el("span", "chip", `Round of 32: <strong>${r32Done}</strong> / ${r32Total}`));
+  if (curRound) {
+    const label = curRound.d === 0 ? `${ROUND_NAME[curRound.r]} up next` :
+      `${ROUND_NAME[curRound.r]}: <strong>${curRound.d}</strong> / ${curRound.total}`;
+    bar.appendChild(el("span", "chip", label));
+  }
   if (champ) {
     bar.appendChild(el("span", "chip", `Champion: <strong>${champ.flag} ${champ.name}</strong>`));
   }
@@ -498,18 +507,18 @@ function renderRows(rows, bracket, scoring, onSelect) {
 
     if (isDead) {
       const info = ELIM.byName[r.displayName] || {};
+      // Whole cell (OUT stamp + i) is the hover/click target — the icon alone is tiny.
       const rankCell = el("div", "rank rank-elim");
-      rankCell.innerHTML = '<span class="elim-stamp">OUT</span>';
-      const ic = el("button", "elim-info", "i");
-      ic.type = "button";
-      ic.setAttribute("aria-label", "Why eliminated");
-      const plain = (info.afterLabel ? "Eliminated after " + info.afterLabel + ". " : "") + (info.reason || "");
-      ic.setAttribute("data-tip", plain);
-      ic.setAttribute("data-tip-html",
+      rankCell.tabIndex = 0;
+      rankCell.setAttribute("role", "button");
+      rankCell.setAttribute("aria-label", "Why " + r.displayName + " is eliminated");
+      rankCell.setAttribute("data-tip",
+        (info.afterLabel ? "Eliminated after " + info.afterLabel + ". " : "") + (info.reason || ""));
+      rankCell.setAttribute("data-tip-html",
         (info.afterLabel ? '<span class="tip-when">Eliminated after ' + decorateReason(info.afterLabel) + "</span>" : "") +
         decorateReason(info.reason || ""));
-      ic.addEventListener("click", (e) => e.stopPropagation());
-      rankCell.appendChild(ic);
+      rankCell.innerHTML = '<span class="elim-stamp">OUT</span><span class="elim-info" aria-hidden="true">i</span>';
+      rankCell.addEventListener("click", (e) => e.stopPropagation()); // don't open the bracket
       row.appendChild(rankCell);
     } else {
       if (r.liveRank <= 3) row.classList.add(`top${r.liveRank}`);

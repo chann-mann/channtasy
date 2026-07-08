@@ -123,7 +123,7 @@ function reason(fe) {
   // Special roast for the commissioner and his better half.
   const SNARK = {
     channmann: "🎖️ The commissioner himself — eliminated in his own pool. Turns out running the thing comes with exactly zero bonus points. ",
-    soffffffff: "💔 The commissioner's girlfriend is out — cold shoulder at home incoming, and he'd better hope he outlasts her or he'll never hear the end of it. ",
+    soffffffff: "🕵️ The commissioner's girlfriend is out — good thing too; if she'd won, there was bound to be an investigation. ",
   };
   return (SNARK[fe.name] || "") + base;
 }
