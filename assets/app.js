@@ -722,7 +722,12 @@ function initAd() {
   if (/[?&]elim=1\b/.test(location.search)) { maybeShowElimReport(); return; } // report only
   const m = location.search.match(/[?&]ad=(\d+)/);
   if (m) { showAd(parseInt(m[1], 10) - 1); return; }
-  if (!ADS_PAUSED) { showAd(Math.floor(Math.random() * ADS.length)); return; }
+  if (!ADS_PAUSED) {
+    // TEMP (revert to random): pin the opening ad to Joey Racket for the day.
+    const pin = ADS.findIndex((a) => /joey-racket/.test(a.src));
+    showAd(pin >= 0 ? pin : Math.floor(Math.random() * ADS.length));
+    return;
+  }
   maybeShowElimReport(); // no ad shown — still surface the report
 }
 
