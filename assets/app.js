@@ -604,6 +604,7 @@ const ADS = [
   { src: "assets/phoong-law-ad.jpg", alt: "Bracket wrong? Call Ann Phoong — Phoong Law, 800-005-0005" },
   { src: "assets/ozo-theory-ad.jpg", alt: "A Beautiful Mind's Game: Ozo's Theory of Everything You Already Knew" },
   { src: "assets/jeekalob-ad.jpg", alt: "Jeekalob Ultra — Superior Light Jeeks. Same great jeeks, with less calories. Official Sponsor of the 2026 FIFA World Cup" },
+  { src: "assets/joey-racket-ad.jpg", alt: "Broken Bracket? Call Joey Racket! Pro-Bracket Repairs / Legal Clinic. We solve all your World Cup bracket problems, no questions asked. (555) 555-5555" },
 ];
 
 /* Ad overlay. Opens on the given creative (index) and lets you page through the
