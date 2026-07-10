@@ -1,9 +1,11 @@
 {
   "totalMatches": 31,
-  "latestMatch": "QA",
-  "latestNum": 25,
-  "latestLabel": "France beat Morocco 2-0",
-  "newlyEliminated": [],
+  "latestMatch": "QB",
+  "latestNum": 26,
+  "latestLabel": "Spain beat Belgium 2-1",
+  "newlyEliminated": [
+    "Saka Rice Krispies"
+  ],
   "byName": {
     "Sneeman3030": {
       "after": "M11",
@@ -158,6 +160,13 @@
       "afterIndex": 24,
       "afterLabel": "Match 24/31 · Switzerland beat Colombia 0-0, on penalties (Round of 16)",
       "reason": "No single rival did you in — the whole field just quietly stepped over you. Run the table on every team you've got left and you still cap at 780, and the leaders are already past that. Death by a thousand cuts."
+    },
+    "Saka Rice Krispies": {
+      "after": "QB",
+      "afterNum": 26,
+      "afterIndex": 26,
+      "afterLabel": "Match 26/31 · Spain beat Belgium 2-1 (Quarterfinal)",
+      "reason": "No single rival did you in — the whole field just quietly stepped over you. Run the table on every team you've got left and you still cap at 765, and the leaders are already past that. Death by a thousand cuts."
     }
   }
 }
