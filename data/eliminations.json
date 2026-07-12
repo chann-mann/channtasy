@@ -1,10 +1,11 @@
 {
   "totalMatches": 31,
-  "latestMatch": "QB",
-  "latestNum": 26,
-  "latestLabel": "Spain beat Belgium 2-1",
+  "latestMatch": "QC",
+  "latestNum": 27,
+  "latestLabel": "England beat Norway 2-1",
   "newlyEliminated": [
-    "Saka Rice Krispies"
+    "channmann",
+    "Hitenpatel11"
   ],
   "byName": {
     "Sneeman3030": {
@@ -167,6 +168,20 @@
       "afterIndex": 26,
       "afterLabel": "Match 26/31 · Spain beat Belgium 2-1 (Quarterfinal)",
       "reason": "No single rival did you in — the whole field just quietly stepped over you. Run the table on every team you've got left and you still cap at 765, and the leaders are already past that. Death by a thousand cuts."
+    },
+    "channmann": {
+      "after": "QC",
+      "afterNum": 27,
+      "afterIndex": 27,
+      "afterLabel": "Match 27/31 · England beat Norway 2-1 (Quarterfinal)",
+      "reason": "🎖️ The commissioner himself — eliminated in his own pool. Turns out running the thing comes with exactly zero bonus points. You and andirayo are rooting for the exact same teams the rest of the way (France to lift it included), except they're up 520–490. An identical bracket from 30 points back isn't a strategy, it's a tribute act."
+    },
+    "Hitenpatel11": {
+      "after": "QC",
+      "afterNum": 27,
+      "afterIndex": 27,
+      "afterLabel": "Match 27/31 · England beat Norway 2-1 (Quarterfinal)",
+      "reason": "Every surviving pick of yours is also (*) iamphilco's, and they lead 550–480 with the same champion (Argentina). You can tie them at best, never pass them. Congrats on the knockoff bracket."
     }
   }
 }
