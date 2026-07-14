@@ -223,6 +223,9 @@ function renderWinnerBanner(winner, bracket) {
 }
 
 const ROUND_NAME = { r32: "Round of 32", r16: "Round of 16", qf: "Quarterfinals", sf: "Semifinals", final: "Final" };
+// Breakdown badges: label each by the round of GAMES that produced the points
+// (scoring round "r16" = points from the R32 games' winners, etc.).
+const BREAKDOWN_LABEL = { r16: "R32", qf: "R16", sf: "QF", final: "SF" };
 
 function renderStatus(bracket, results, actuals) {
   const bar = document.getElementById("status-bar");
@@ -559,8 +562,10 @@ function renderRows(rows, bracket, scoring, onSelect) {
     const breakdown = el("div", "breakdown");
     for (const round of scoring.rounds) {
       const cell = r.perRound[round.id];
+      // Label by the round of games that EARNED the points, not the round reached
+      // (advancement scoring credits the round reached, which reads a step ahead).
       const b = el("span", "badge" + (cell.pts > 0 ? " scored" : ""),
-        `<span class="lbl">${round.short}</span>${cell.pts}`);
+        `<span class="lbl">${BREAKDOWN_LABEL[round.id] || round.short}</span>${cell.pts}`);
       breakdown.appendChild(b);
     }
     const champCell = r.perRound.champion;
