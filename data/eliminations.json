@@ -1,9 +1,12 @@
 {
   "totalMatches": 31,
-  "latestMatch": "QD",
-  "latestNum": 28,
-  "latestLabel": "Argentina beat Switzerland 3-1",
-  "newlyEliminated": [],
+  "latestMatch": "S1",
+  "latestNum": 29,
+  "latestLabel": "Spain beat France 2-0",
+  "newlyEliminated": [
+    "White-Morpheus",
+    "(*) iamphilco"
+  ],
   "byName": {
     "Sneeman3030": {
       "after": "M11",
@@ -179,6 +182,20 @@
       "afterIndex": 27,
       "afterLabel": "Match 27/31 · England beat Norway 2-1 (Quarterfinal)",
       "reason": "Every surviving pick of yours is also (*) iamphilco's, and they lead 550–480 with the same champion (Argentina). You can tie them at best, never pass them. Congrats on the knockoff bracket."
+    },
+    "White-Morpheus": {
+      "after": "S1",
+      "afterNum": 29,
+      "afterIndex": 29,
+      "afterLabel": "Match 29/31 · Spain beat France 2-0 (Semifinal)",
+      "reason": "Your champion (France) is already home on the couch — and Joe Re Mi still has every team you've got left, leading 615–590. Lost your winner AND got copied by someone ahead of you. No path to first."
+    },
+    "(*) iamphilco": {
+      "after": "S1",
+      "afterNum": 29,
+      "afterIndex": 29,
+      "afterLabel": "Match 29/31 · Spain beat France 2-0 (Semifinal)",
+      "reason": "Nobody even had to try; everybody beat you a little. Your absolute dream run tops out at 765 — short of the pack no matter what happens. The math just closed the door."
     }
   }
 }

@@ -203,6 +203,25 @@ function initTooltip() {
   window.addEventListener("resize", place);
 }
 
+// Big animated champion banner — shown once the field of survivors is down to one.
+function renderWinnerBanner(winner, bracket) {
+  const main = document.querySelector("main");
+  if (!main || document.getElementById("winner-banner")) return;
+  const champ = bracket.teams[winner.champion];
+  const banner = el("div", "winner-banner");
+  banner.id = "winner-banner";
+  banner.innerHTML =
+    '<div class="wb-inner">' +
+      '<div class="wb-label">🏆 Your Channtasy Cup Champion 🏆</div>' +
+      '<div class="wb-name">' + fmtName(winner.displayName) + "</div>" +
+      '<div class="wb-sub">' +
+        (champ ? champ.flag + " " + escHtml(champ.name) + " · " : "") +
+        "<strong>" + winner.total + "</strong> pts · last bracket standing" +
+      "</div>" +
+    "</div>";
+  main.insertBefore(banner, main.firstChild);
+}
+
 const ROUND_NAME = { r32: "Round of 32", r16: "Round of 16", qf: "Quarterfinals", sf: "Semifinals", final: "Final" };
 
 function renderStatus(bracket, results, actuals) {
@@ -770,6 +789,11 @@ async function main() {
     renderNextMatch(bracket, results, withBracket);
     renderRows(rows, bracket, scoring, (r) => openDetail(r, bracket, scoring, actuals, eliminated));
     renderPending(pending);
+
+    // Champion banner: fires the moment everyone but one is mathematically out.
+    const aliveRows = rows.filter((r) => !(ELIM.byName || {})[r.displayName]);
+    if (aliveRows.length === 1) renderWinnerBanner(aliveRows[0], bracket);
+    else if (/[?&]winner=1\b/.test(location.search)) renderWinnerBanner(rows[0], bracket); // preview
 
     const note = document.getElementById("updated-note");
     if (results.lastUpdated) note.textContent = `Updated ${results.lastUpdated}`;
