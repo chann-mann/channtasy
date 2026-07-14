@@ -69,10 +69,11 @@ function score(p, w) { const { r, champ } = reachedOf(w); let t = 0; for (const 
 function aliveFn(w) { const e = new Set(); for (const m of bracket.rounds.r32) { if (w[m.id]) m.teams.forEach((t) => { if (t !== w[m.id]) e.add(t); }); } for (const round of ["r16", "qf", "sf", "final"]) for (const m of bracket.rounds[round]) { const ts = m.feeds.map((f) => w[f]).filter(Boolean); if (w[m.id] && ts.length === 2) ts.forEach((t) => { if (t !== w[m.id]) e.add(t); }); } return (t) => t && !e.has(t); }
 const subset = (a, b) => { const B = new Set(b); return a.every((x) => B.has(x)); };
 function scoreable(p, round, alive, reached) { return (p[round] || []).filter((t) => alive(t) && !reached[round].has(t)); }
-function dominator(name, cur, alive, reached, champ) {
+function dominator(name, cur, alive, reached, champ, alreadyOut) {
   const X = pmap[name];
   for (const Y of picks) {
     if (Y.displayName === name || cur[Y.displayName] <= cur[name]) continue;
+    if (alreadyOut && alreadyOut.has(Y.displayName)) continue; // don't blame a player who's already out
     let ok = true;
     for (const r of ["r16", "qf", "sf", "final"]) if (!subset(scoreable(X, r, alive, reached), scoreable(Y, r, alive, reached))) { ok = false; break; }
     if (!ok) continue;
@@ -104,6 +105,11 @@ function reason(fe) {
   const X = pmap[fe.name], champ = NAME(X.champion), champDead = !alive(X.champion);
   const h = [...fe.name].reduce((a, c) => a + c.charCodeAt(0), 0), pickV = (arr) => arr[h % arr.length];
   let ceil = cur[fe.name]; for (const r of ["qf", "sf", "final"]) { const pts = scoringDef.rounds.find((x) => x.id === r).points; ceil += (X[r] || []).filter((t) => alive(t) && !reachedOf(w).r[r].has(t)).length * pts; } if (alive(X.champion) && X.champion !== reachedOf(w).champ) ceil += 100;
+  // Respectful send-offs for the deep-run finalists.
+  if (fe.name === "White-Morpheus")
+    return `${champ} let you down when it mattered — a flat, lackluster semifinal and a loss to Spain, and your title bid went out the door with them. You rode them from the very start and led the chase for weeks; they just didn't show up on the day. A gut-punch way to bow out, and no shame in it.`;
+  if (fe.name === "(*) iamphilco")
+    return `Chalk this one up to the quirk of the math, not your read. Your champion, ${champ}, is still alive and could genuinely lift the trophy — but the scoring did what it did: soffffffff's lead plus her Spain-in-the-final points had already closed the door. You may well have picked the actual World Cup winner and still not win the pool. Cruel, but that's the bracket.`;
   let base;
   if (fe.dom) {
     const d = fe.dom, gap = d.pts - cur[fe.name];
@@ -138,9 +144,10 @@ async function main() {
     const remCount = TOTAL - Object.keys(w).length;
     const alive = aliveFn(w); const { r: reached, champ } = reachedOf(w);
     const cur = {}; picks.forEach((p) => cur[p.displayName] = score(p, w));
+    const alreadyOut = new Set(Object.keys(firstElim)); // eliminated at earlier matches
     for (const p of picks) {
       if (firstElim[p.displayName]) continue;
-      const dom = dominator(p.displayName, cur, alive, reached, champ);
+      const dom = dominator(p.displayName, cur, alive, reached, champ, alreadyOut);
       if (dom) firstElim[p.displayName] = { name: p.displayName, id, num: matchNum[id], dom, w: { ...w } };
     }
     if (remCount <= 16) {
